@@ -1,7 +1,6 @@
 'use strict';
 const initRouterMap = require('./utils/initRouterMap');
 
-
 /**
  * @param {Egg.Application} app - egg application
  */

@@ -4,4 +4,5 @@
     "source.fixAll.stylelint": true
   },
   "editor.tabSize": 2,
+  "todohighlight.toggleURI": true,
 }

@@ -3,6 +3,8 @@
 
 module.exports = ctl => ({
   post: {
+    // 新增账户
+    '/addAccount': ctl.account.addAccount,
     // 修改账号基础资料
     '/editAccountInfo': ctl.account.update,
     // 校验原密码

@@ -10,7 +10,7 @@ const registerRule = {
     type: 'email',
     required: false,
   },
-  scholl_id: {
+  schoolId: {
     type: 'int',
     required: true,
   },

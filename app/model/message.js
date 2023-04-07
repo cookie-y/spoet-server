@@ -7,9 +7,9 @@ module.exports = app => {
   const MessageReceiver = app.model.define('messageReceiver', require('../schema/messageReceiver')(app));
 
   // 关系
-  Message.belongsTo(Account, { foreignKey: 'sender', targetKey: 'accountId' }); // 一个消息只有一个发送方
-  Message.belongsTo(Race, { foreignKey: 'related', targetKey: 'raceId' }); // 一个消息只关联一个比赛
-  Message.hasMany(MessageReceiver, { foreignKey: 'messageId', targetKey: 'id' }); // 一个账号可接收多条信息
+  Message.belongsTo(Account, { foreignKey: 'senderId', targetKey: 'accountId' }); // 一个消息只有一个发送方
+  Message.belongsTo(Race, { foreignKey: 'raceId', targetKey: 'raceId' }); // 一个消息只关联一个比赛
+  Message.hasMany(MessageReceiver, { foreignKey: 'messageId', targetKey: 'messageId' }); // 一个账号可接收多条信息
 
 
   return Message;

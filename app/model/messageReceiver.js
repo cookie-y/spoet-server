@@ -7,7 +7,7 @@ module.exports = app => {
 
   // 关系
   MessageReceiver.belongsTo(Account, { foreignKey: 'receverId', targetKey: 'accountId' }); // 一个消息只有一个发送方
-  MessageReceiver.belongsTo(Message, { foreignKey: 'messageId', targetKey: 'id' }); // 一个消息只关联一个比赛
+  MessageReceiver.belongsTo(Message, { foreignKey: 'messageId', targetKey: 'messageId' }); // 一个消息只关联一个比赛
 
   return MessageReceiver;
 };

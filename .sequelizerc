@@ -4,7 +4,10 @@ const path = require('path');
 
 module.exports = {
   config: path.join(__dirname, 'database/config.json'),
+  // 存放数据库迁移的文件夹
   'migrations-path': path.join(__dirname, 'database/migrations'),
+  // 存放如何生成假数据的文件夹
   'seeders-path': path.join(__dirname, 'database/seeders'),
+  // 存放表中字段映射到JS对象的文件夹
   'models-path': path.join(__dirname, 'app/model'),
 };

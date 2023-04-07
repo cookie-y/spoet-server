@@ -1,6 +1,6 @@
 /* eslint valid-jsdoc: "off" */
-
 'use strict';
+
 
 /**
  * @param {Egg.EggAppInfo} appInfo app info
@@ -14,15 +14,15 @@ module.exports = appInfo => {
 
   config.security = {
     csrf: {
-      enable: false
-    }
-  }
+      enable: false,
+    },
+  };
 
   config.multipart = {
     mode: 'file',
     fileSize: 1048576000,
-    whitelist: ['.png', '.jpg', '.bmp', '.doc']
-  }
+    whitelist: [ '.png', '.jpg', '.bmp', '.doc' ],
+  };
 
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1648288272516_5186';
@@ -38,13 +38,27 @@ module.exports = appInfo => {
     username: 'root',
     password: 'root',
     timezone: '+08:00',
-    exclude: 'index.js'
-  }
+    exclude: 'index.js',
+  };
+
+  // 登录校验
+  config.jwt = {
+    secret: '123456',
+    enable: true,
+    ignore(ctx) {
+      const paths = [ '/api/signIn', '/api/signUp' ];
+      return paths.includes(ctx.path);
+    },
+  };
+
+  config.passportLocal = {
+    usernameField: 'accountId',
+  };
 
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
-    prefix: '/api'
+    prefix: '/api',
   };
 
   return {

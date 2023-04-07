@@ -1,5 +1,7 @@
 'use strict';
 
+const bcrypt = require('bcrypt');
+
 module.exports = app => {
   const Account = app.model.define('account', require('../schema/account')(app));
   const Race = app.model.define('race', require('../schema/race')(app));
@@ -20,6 +22,14 @@ module.exports = app => {
   Account.hasMany(SearchRecord, { foreignKey: 'accountId', targetKey: 'accountId' }); // 一个账号可有多个搜索记录
   Account.hasMany(Message, { foreignKey: 'sender', targetKey: 'accountId' }); // 一个账号可发送多条信息
   Account.hasMany(MessageReceiver, { foreignKey: 'receverId', targetKey: 'accountId' }); // 一个账号可接收多条信息
+
+
+  Account.beforeSave(async account => {
+    if (!account.changed('password')) {
+      return;
+    }
+    account.password = await bcrypt.hash(account.password, 10);
+  });
 
   /**
    * * 新增账号
