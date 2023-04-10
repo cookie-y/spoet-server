@@ -4,7 +4,7 @@
 module.exports = ctl => ({
   post: {
     // 登录
-    '/signIn': ctl.auth.signIn,
+    '/signIn': ctl.passport.local,
     // 注册
     '/signUp': ctl.auth.signUp,
     // 找回密码

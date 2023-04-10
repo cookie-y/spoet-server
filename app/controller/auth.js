@@ -15,10 +15,7 @@ class AuthController extends Controller {
       // 校验
       ctx.validate(loginRule);
 
-      const res = await ctx.service.auth.validatePassword(ctx.request.body);
-      if (!res) {
-        ctx.throw(422, 'Validation Failed', { message: '密码错误' });
-      }
+      await ctx.service.auth.validatePassword(ctx.request.body);
 
       this.success();
     } catch (err) {

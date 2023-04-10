@@ -18,6 +18,7 @@ class SecurityController extends Controller {
   async addAccount() {
     const { ctx } = this;
     await ctx.service.account.add(ctx.request.body);
+    this.success(ctx.state);
   }
 
   // 更新信息
