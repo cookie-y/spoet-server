@@ -10,4 +10,8 @@ module.exports = ctl => ({
     // 找回密码
     '/resetPassword': ctl.auth.resetPassword,
   },
+  get: {
+    // 获取注册验证码
+    '/getSignUpCode': ctl.auth.sendSignUpCode,
+  },
 });

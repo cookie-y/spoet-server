@@ -46,13 +46,22 @@ module.exports = appInfo => {
     secret: '123456',
     enable: true,
     ignore(ctx) {
-      const paths = [ '/api/signIn', '/api/signUp' ];
+      const paths = [ '/api/signIn', '/api/signUp', '/api/getSignUpCode' ];
       return paths.includes(ctx.path);
     },
   };
 
   config.passportLocal = {
     usernameField: 'accountId',
+  };
+
+  config.redis = {
+    client: {
+      port: 6379,
+      host: '127.0.0.1',
+      password: '',
+      db: 0,
+    },
   };
 
   // add your user config here

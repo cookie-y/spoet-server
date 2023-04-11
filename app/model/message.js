@@ -11,6 +11,9 @@ module.exports = app => {
   Message.belongsTo(Race, { foreignKey: 'raceId', targetKey: 'raceId' }); // 一个消息只关联一个比赛
   Message.hasMany(MessageReceiver, { foreignKey: 'messageId', targetKey: 'messageId' }); // 一个账号可接收多条信息
 
+  Message.add = async message => {
+    return await Message.create(message);
+  };
 
   return Message;
 };

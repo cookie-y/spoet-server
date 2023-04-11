@@ -1,22 +1,31 @@
 'use strict';
 
-
-const registerRule = {
-  reson: {
-    type: 'string',
-    required: true,
-  },
-  email: {
-    type: 'email',
-    required: false,
-  },
+// 注册接口参数校验
+const signUpRule = {
+  // 所属院校
   schoolId: {
     type: 'int',
     required: true,
   },
+  // 邮箱
+  email: {
+    type: 'email',
+    required: true,
+  },
+  // 验证码
+  code: {
+    type: 'string',
+    require: true,
+  },
+  // 申请原因
+  reason: {
+    type: 'string',
+    required: true,
+  },
 };
 
-const loginRule = {
+// 登录接口参数校验
+const signInRule = {
   accountId: {
     type: 'int',
     required: true,
@@ -29,6 +38,6 @@ const loginRule = {
 
 
 module.exports = {
-  registerRule,
-  loginRule,
+  signUpRule,
+  signInRule,
 };
