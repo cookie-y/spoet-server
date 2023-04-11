@@ -14,9 +14,18 @@ class BaseController extends Controller {
     this.ctx.status = this.ctx.SUCCESS_CODE;
   }
 
-  fail(code, msg) {
-    this.ctx.body = { code, msg, data: {} };
-    this.ctx.status = 200;
+  fail(data) {
+    let msg = '';
+    let status = 500;
+    if (Array.isArray(data.errors)) {
+      const { message, field } = data.errors[0];
+      msg = `${field} is ${message}`;
+      status = 400;
+    } else {
+      msg = data.message;
+    }
+    this.ctx.body = { msg, data: {} };
+    this.ctx.status = status;
   }
 
   file(stream, type) {

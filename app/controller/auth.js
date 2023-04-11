@@ -17,18 +17,8 @@ class AuthController extends Controller {
       await ctx.service.auth.validatePassword(ctx.request.body);
 
       this.success();
-    } catch (err) {
-      let msg = '';
-      if (Array.isArray(err.errors)) {
-        const { message, field, code } = err.errors[0];
-        msg = `${field} is ${message}`;
-
-        this.fail(code, msg);
-      } else {
-        msg = err.message;
-
-        this.fail(msg);
-      }
+    } catch (error) {
+      this.fail(error);
     }
 
   }
