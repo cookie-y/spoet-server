@@ -9,8 +9,8 @@ const { Controller } = require('egg');
  */
 class BaseController extends Controller {
 
-  success(data) {
-    this.ctx.body = { code: this.ctx.SUCCESS_CODE, data, msg: this.ctx.SUCCESS_MSG };
+  success(data, msg) {
+    this.ctx.body = { code: this.ctx.SUCCESS_CODE, data, msg: msg || this.ctx.SUCCESS_MSG };
     this.ctx.status = this.ctx.SUCCESS_CODE;
   }
 

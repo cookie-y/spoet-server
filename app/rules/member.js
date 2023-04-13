@@ -30,9 +30,25 @@ const addMemberRule = {
     type: 'string',
     required: true,
   },
+};
 
+// 获取队员列表接口参数校验
+const memberListRule = {
+  accountId: {
+    type: 'string',
+    required: true,
+  },
+  page: {
+    type: 'string',
+    required: true,
+  },
+  pageSize: {
+    type: 'string',
+    required: true,
+  },
 };
 
 module.exports = {
   addMemberRule,
+  memberListRule,
 };

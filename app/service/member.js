@@ -12,6 +12,19 @@ class RaceService extends Service {
     return result;
   }
 
+  // 获取队员列表
+  async getMemberList(query, page, pageSize) {
+    const { ctx } = this;
+    const result = await ctx.model.Member.list(query, pageSize, (page - 1) * pageSize);
+    return { ...result, page, pageSize };
+  }
+
+  // 删除队员
+  async delMember(query) {
+    const { ctx } = this;
+    return await ctx.model.Member.del(query);
+  }
+
 }
 
 module.exports = RaceService;

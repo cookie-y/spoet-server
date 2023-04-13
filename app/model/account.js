@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 module.exports = app => {
   const Account = app.model.define('account', require('../schema/account')(app));
   const Race = app.model.define('race', require('../schema/race')(app));
-  const TeamMember = app.model.define('teamMember', require('../schema/member')(app));
+  const Member = app.model.define('Member', require('../schema/member')(app));
   const ParticipateRecord = app.model.define('participateRecord', require('../schema/participateRecord')(app));
   const School = app.model.define('school', require('../schema/school')(app));
   const Point = app.model.define('point', require('../schema/point')(app));
@@ -15,7 +15,7 @@ module.exports = app => {
 
   // 关系
   Account.hasMany(Race, { foreignKey: 'organizer', targetKey: 'accountId' }); // 一个账号可举办多场比赛
-  Account.hasMany(TeamMember, { foreignKey: 'teamAccountId', targetKey: 'accountId' }); // 一个账号有多个队员
+  Account.hasMany(Member, { foreignKey: 'facultyId', targetKey: 'accountId' }); // 一个账号有多个队员
   Account.hasMany(ParticipateRecord, { foreignKey: 'accountId', targetKey: 'accountId' }); // 一个账号可有多个队员参赛
   Account.belongsTo(School, { foreignKey: 'schoolId', targetKey: 'schoolId' }); // 一个账号属于一个学校
   Account.hasMany(Point, { foreignKey: 'accountId', targetKey: 'accountId' }); // 一个账号可有多个积分(不同的比赛)
