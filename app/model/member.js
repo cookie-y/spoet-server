@@ -16,14 +16,24 @@ module.exports = app => {
     return { list, total };
   };
 
+  // 查询详情
+  Member.detail = async where => {
+    return await Member.findOne({ where });
+  };
+
   // 新增队员
   Member.add = async member => {
     return await Member.create(member);
   };
 
+  // 编辑队员
+  Member.edit = async (member, where) => {
+    return await Member.update(member, { where });
+  };
+
   // 删除队员
-  Member.del = async query => {
-    return await Member.destroy({ where: query });
+  Member.del = async where => {
+    return await Member.destroy({ where });
   };
 
   return Member;
