@@ -19,7 +19,7 @@ class BaseController extends Controller {
     let status = 500;
     if (Array.isArray(data.errors)) {
       const { message, field } = data.errors[0];
-      msg = `${field} is ${message}`;
+      msg = `${field} ${message}`;
       status = 400;
     } else {
       msg = data.message;

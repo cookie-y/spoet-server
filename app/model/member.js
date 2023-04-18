@@ -12,8 +12,8 @@ module.exports = app => {
 
   // 查询分组
   Member.list = async (where, limit, offset) => {
-    const [ list, total ] = await Promise.all([ Member.findAll({ where, limit, offset }), Member.count() ]);
-    return { list, total };
+    const { rows, count } = await Member.findAndCountAll({ where, limit, offset });
+    return { list: rows, total: count };
   };
 
   // 查询详情
