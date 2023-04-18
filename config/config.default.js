@@ -21,7 +21,7 @@ module.exports = appInfo => {
   config.multipart = {
     mode: 'file',
     fileSize: 1048576000,
-    whitelist: [ '.png', '.jpg', '.bmp', '.doc' ],
+    whitelist: [ '.png', '.jpg', '.bmp', '.doc', '.pdf' ],
   };
 
   // use for cookie sign key, should change to your own and keep security

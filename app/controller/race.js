@@ -1,20 +1,12 @@
 'use strict';
-const _ = require('lodash');
 const Controller = require('../core/base_controller');
-const { raceRule } = require('../rules/race');
+const rules = require('../rules/race');
+const { groupBy } = require('lodash');
 
 /**
  * * 安全
  */
 class RaceController extends Controller {
-
-  // 获取比赛详情
-  async getDetail() {
-    const { ctx } = this;
-    const race = await ctx.service.race.getDetail();
-    this.success(race);
-  }
-
   // 获取比赛列表
   async getList() {
     const { ctx } = this;
@@ -47,6 +39,38 @@ class RaceController extends Controller {
     this.success(race);
   }
 
+  // 获取比赛详情
+  async getDetail() {
+    const { ctx } = this;
+    const race = await ctx.service.race.getDetail();
+    this.success(race);
+  }
+
+  // 新增比赛
+  async addRace() {
+    const { ctx } = this;
+
+    // 校验
+    try {
+      ctx.validate(rules.addRaceRule);
+
+      const { annex, venueImgs, racePoster } = groupBy(ctx.request.files, 'fieldname');
+
+      const race = {
+        ...ctx.request.body,
+        annex,
+        venueImgs,
+        racePoster,
+      };
+      await ctx.service.race.addRace(race);
+
+      this.success();
+    } catch (error) {
+      this.fail(error);
+    }
+
+  }
+
   // 更新比赛信息
   async update() {
     const { ctx } = this;
@@ -54,19 +78,6 @@ class RaceController extends Controller {
     const user = await ctx.service.race.update(ctx.request.body);
 
     this.success(user);
-  }
-
-
-  // 新增比赛
-  async add() {
-    const { ctx } = this;
-
-    // 校验
-    ctx.validate(raceRule);
-
-    const result = await ctx.service.race.addRace();
-
-    result ? this.success() : this.fail(401, '登录失效，请重新登录');
   }
 
   // 删除比赛

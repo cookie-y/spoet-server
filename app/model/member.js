@@ -10,7 +10,7 @@ module.exports = app => {
   Member.belongsTo(Account, { foreignKey: 'facultyId', as: 'account', targetKey: 'accountId' }); // 一个学生属于一个账号
   Member.hasMany(ParticipateRecord, { foreignKey: 'studentId', targetKey: 'studentId' }); // 一个学生可参加多个比赛
 
-  // 查询分组
+  // 查询列表
   Member.list = async (where, limit, offset) => {
     const { rows, count } = await Member.findAndCountAll({ where, limit, offset });
     return { list: rows, total: count };

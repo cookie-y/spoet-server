@@ -4,7 +4,7 @@ const Service = require('egg').Service;
 const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
-const datjs = require('dayjs');
+const dayjs = require('dayjs');
 
 class StorageService extends Service {
   /**
@@ -20,7 +20,7 @@ class StorageService extends Service {
     const result = [];
     for (const file of files) {
       // 获取唯一的id
-      const id = _.uniqueId(datjs().unix().toString());
+      const id = _.uniqueId(dayjs().unix().toString());
       const suffix = file.mimeType.split('/')[1];
       const uploadPath = path.join(config.baseDir, `/app/public/${content}`, `${id}.${suffix}`);
 

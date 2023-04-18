@@ -5,14 +5,14 @@ const { Op } = require('sequelize');
 
 class RaceService extends Service {
   // 新增比赛
-  async addRace() {
+  async addRace(race) {
     const { ctx } = this;
-    const race = ctx.request.body;
-    const files = await ctx.service.storage.uploadFile('race');
-    race.rule = files.rule.join(',');
-    race.racePoster = files.racePoster.join(',');
-    race.venueImgs = files.venueImgs.join(',');
-    const result = await ctx.model.Race.add(race);
+    const [ annex, racePoster, venueImgs ] = await Promise.all([
+      ctx.service.storage.uploadFile('race', race.annex),
+      ctx.service.storage.uploadFile('race', race.racePoster),
+      ctx.service.storage.uploadFile('race', race.venueImgs),
+    ]);
+    const result = await ctx.model.Race.add({ ...race, annex, racePoster, venueImgs });
     return result;
   }
 

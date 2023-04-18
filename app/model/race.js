@@ -15,29 +15,20 @@ module.exports = app => {
   Race.hasMany(Message, { foreignKey: 'raceId', targetKey: 'raceId' }); // 一场比赛有多条消息记录
   Race.hasMany(VolleyballScore, { foreignKey: 'raceId', targetKey: 'raceId' }); // 一场比赛有多条比赛结果记录
 
-  /**
-   * * 获取比赛信息
-   */
-  Race.getRace = async filter => {
-    return await Race.findOne(filter);
+  // 查询列表
+  Race.list = async (where, limit, offset) => {
+    const { rows, count } = await Race.findAndCountAll({ where, limit, offset });
+    return { list: rows, total: count };
   };
 
-  /**
-   * * 获取比赛列表（分页）
-   */
-  Race.getListPaginated = async filter => {
-    return await Race.findAndCountAll(filter);
-  };
-
-  /**
-   * * 获取比赛列表
-   */
-  Race.getList = async filter => {
-    return await Race.findAll(filter);
+  // 查询详情
+  Race.detail = async where => {
+    return await Race.findOne({ where });
   };
 
   // 新增比赛
   Race.add = async race => {
+    console.log(race.recePoster);
     return await Race.create(race);
   };
 
