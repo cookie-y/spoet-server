@@ -8,10 +8,15 @@ const { groupBy } = require('lodash');
  */
 class RaceController extends Controller {
   // 获取比赛列表
-  async getList() {
+  async getRaceList() {
     const { ctx } = this;
-    const race = await ctx.service.race.getRaceList();
-    this.success(race);
+    try {
+      await ctx.validate(rules.raceListRule, ctx.query);
+      const race = await ctx.service.race.getRaceList(ctx.request.query);
+      this.success(race);
+    } catch (error) {
+      this.fail(error);
+    }
   }
 
   // 获取我举办的比赛列表

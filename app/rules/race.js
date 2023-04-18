@@ -1,5 +1,21 @@
 'use strict';
 
+// 获取比赛列表接口参数校验
+const raceListRule = {
+  state: {
+    type: 'stringNumber',
+  },
+  page: {
+    type: 'stringNumber',
+    required: true,
+  },
+  pageSize: {
+    type: 'stringNumber',
+    required: true,
+  },
+};
+
+// 新增比赛接口参数校验
 const addRaceRule = {
   raceName: {
     type: 'string',
@@ -29,5 +45,6 @@ const addRaceRule = {
 
 
 module.exports = {
+  raceListRule,
   addRaceRule,
 };

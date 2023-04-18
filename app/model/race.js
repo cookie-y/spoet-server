@@ -16,8 +16,9 @@ module.exports = app => {
   Race.hasMany(VolleyballScore, { foreignKey: 'raceId', targetKey: 'raceId' }); // 一场比赛有多条比赛结果记录
 
   // 查询列表
-  Race.list = async (where, limit, offset) => {
-    const { rows, count } = await Race.findAndCountAll({ where, limit, offset });
+  Race.list = async (where, limit, offset, order = [[ 'pv', 'DESC' ]]) => {
+    console.log(where, limit, offset);
+    const { rows, count } = await Race.findAndCountAll({ where, limit, offset, order });
     return { list: rows, total: count };
   };
 

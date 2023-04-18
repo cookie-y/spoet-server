@@ -17,23 +17,15 @@ class RaceService extends Service {
   }
 
   // 获取比赛列表
-  async getRaceList() {
+  async getRaceList(race) {
     const { ctx } = this;
-    const { keyword, state, page = 1, size = 10 } = ctx.query;
-    const filter = {
-      where: {
-        state,
-      },
-      order: [
-        [ 'pv', 'DESC' ],
-      ],
-      limit: +size,
-      offset: +size * (+page - 1),
-    };
+    const { page, pageSize, keyword, ...query } = race;
+    const where = { ...query };
     if (keyword) {
-      filter.where.raceName = { [Op.substring]: keyword };
+      where.raceName = { [Op.substring]: keyword };
     }
-    const result = await ctx.model.Race.getListPaginated(filter);
+
+    const result = await ctx.model.Race.list(where, +pageSize, (page - 1) * pageSize);
     return result;
   }
 
