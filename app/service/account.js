@@ -3,9 +3,9 @@
 const Service = require('egg').Service;
 
 class AccountService extends Service {
-  async getAccountDetailById(query) {
+  async getAccountDetailById(accountId) {
     const { ctx } = this;
-    return await ctx.model.Account.detail(query);
+    return await ctx.model.Account.detail(accountId);
   }
 
   /**

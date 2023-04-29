@@ -16,7 +16,7 @@ class AuthService extends Service {
    */
   async validatePassword({ accountId, password }) {
     const { ctx } = this;
-    const account = await ctx.model.Account.findById(accountId);
+    const account = await ctx.model.Account.detail(accountId);
     if (!account) {
       ctx.throw(422, 'Validation Failed', { message: '账号不存在' });
     }

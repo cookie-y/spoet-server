@@ -1,5 +1,6 @@
 'use strict';
 const Controller = require('../core/base_controller');
+const rules = require('../rules/account');
 
 /**
  * * 安全
@@ -10,7 +11,7 @@ class SecurityController extends Controller {
   async getAccountInfo() {
     const { ctx } = this;
 
-    const user = await ctx.service.account.getAccountDetailById(1);
+    const user = await ctx.service.account.getAccountDetailById(45);
     this.success(user);
   }
 
@@ -31,7 +32,19 @@ class SecurityController extends Controller {
   }
 
   // 校验原密码
-  validatePassword() {}
+  async validatePassword() {
+    const { ctx } = this;
+    try {
+      ctx.validate(rules.validatePasswordRule);
+
+      await ctx.service.auth.validatePassword(ctx.request.body);
+
+      this.success(null, '密码正确');
+
+    } catch (error) {
+      this.fail(error);
+    }
+  }
 
   // 修改密码
   updatePassword() {}
