@@ -15,6 +15,14 @@ const raceListRule = {
   },
 };
 
+// 获取比赛详情接口参数校验
+const raceDetailRule = {
+  raceId: {
+    type: 'id',
+    require: true,
+  },
+};
+
 // 新增比赛接口参数校验
 const addRaceRule = {
   raceName: {
@@ -46,5 +54,6 @@ const addRaceRule = {
 
 module.exports = {
   raceListRule,
+  raceDetailRule,
   addRaceRule,
 };

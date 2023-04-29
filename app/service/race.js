@@ -25,25 +25,30 @@ class RaceService extends Service {
       where.raceName = { [Op.substring]: keyword };
     }
 
-    const result = await ctx.model.Race.list(where, +pageSize, (page - 1) * pageSize);
+    const filter = {
+      where,
+      limit: +pageSize,
+      offset: (page - 1) * pageSize,
+      include: 'organize',
+    };
+
+    const result = await ctx.model.Race.list(filter);
     return result;
   }
 
   // 获取我举办的比赛列表
-  async getMyHostList(accountId, page, size) {
+  async getMyHostRaceList(race) {
     const { ctx } = this;
+    const { page, pageSize, ...query } = race;
+
     const filter = {
-      include: ctx.model.Account,
-      where: {
-        organizer: accountId,
-      },
-      order: [
-        [ 'applyStart', 'DESC' ],
-      ],
-      limit: +size,
-      offset: +size * (+page - 1),
+      where: { ...query },
+      limit: +pageSize,
+      offset: (page - 1) * pageSize,
+      include: 'organize',
     };
-    const result = await ctx.model.Race.getListPaginated(filter);
+
+    const result = await ctx.model.Race.list(filter);
     return result;
   }
 
@@ -69,23 +74,13 @@ class RaceService extends Service {
   }
 
   // 获取比赛详情
-  async getDetail() {
+  async getDetail(raceId) {
     const { ctx } = this;
     const filter = {
-      attributes: { exclude: [ 'organizer' ] },
-      where: ctx.query,
-      include: [
-        {
-          model: ctx.model.ParticipateRecord,
-          as: 'participates',
-        },
-        {
-          model: ctx.model.Account,
-          as: 'organize',
-        },
-      ],
+      where: { raceId },
+      include: [ 'organize', 'participates' ],
     };
-    const result = await ctx.model.Race.getRace(filter);
+    const result = await ctx.model.Race.detail(filter);
     return result;
   }
 

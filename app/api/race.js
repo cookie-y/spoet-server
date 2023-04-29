@@ -8,5 +8,9 @@ module.exports = ctl => ({
   get: {
     // 获取比赛列表
     '/getRaceList': ctl.race.getRaceList,
+    // 获取比赛列表
+    '/getMyHostRaceList': ctl.race.getMyHostRaceList,
+    // 获取比赛详情
+    '/getRaceDetail': ctl.race.getRaceDetail,
   },
 });

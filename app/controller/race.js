@@ -20,10 +20,9 @@ class RaceController extends Controller {
   }
 
   // 获取我举办的比赛列表
-  async getMyHostRaces() {
+  async getMyHostRaceList() {
     const { ctx } = this;
-    const { accountId, page = 1, size = 10 } = ctx.query;
-    const list = await ctx.service.race.getMyHostList(+accountId, page, size);
+    const list = await ctx.service.race.getMyHostRaceList(ctx.request.query);
 
     this.success(list);
   }
@@ -45,10 +44,17 @@ class RaceController extends Controller {
   }
 
   // 获取比赛详情
-  async getDetail() {
+  async getRaceDetail() {
     const { ctx } = this;
-    const race = await ctx.service.race.getDetail();
-    this.success(race);
+    const { query } = ctx.request;
+    try {
+      ctx.validate(rules.raceDetailRule, query);
+
+      const race = await ctx.service.race.getDetail(query.raceId);
+      this.success(race);
+    } catch (error) {
+      this.fail(error);
+    }
   }
 
   // 新增比赛
