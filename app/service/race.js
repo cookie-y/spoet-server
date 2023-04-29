@@ -4,17 +4,6 @@ const Service = require('egg').Service;
 const { Op } = require('sequelize');
 
 class RaceService extends Service {
-  // 新增比赛
-  async addRace(race) {
-    const { ctx } = this;
-    const [ annex, racePoster, venueImgs ] = await Promise.all([
-      ctx.service.storage.uploadFile('race', race.annex),
-      ctx.service.storage.uploadFile('race', race.racePoster),
-      ctx.service.storage.uploadFile('race', race.venueImgs),
-    ]);
-    const result = await ctx.model.Race.add({ ...race, annex, racePoster, venueImgs });
-    return result;
-  }
 
   // 获取比赛列表
   async getRaceList(race) {
@@ -102,8 +91,20 @@ class RaceService extends Service {
     return result;
   }
 
+  // 新增比赛
+  async addRace(race) {
+    const { ctx } = this;
+    const [ annex, racePoster, venueImgs ] = await Promise.all([
+      ctx.service.storage.uploadFile('race', race.annex),
+      ctx.service.storage.uploadFile('race', race.racePoster),
+      ctx.service.storage.uploadFile('race', race.venueImgs),
+    ]);
+    const result = await ctx.model.Race.add({ ...race, annex, racePoster, venueImgs });
+    return result;
+  }
+
   // 更新比赛信息
-  update() {}
+  editRace() {}
 
 }
 

@@ -3,6 +3,10 @@
 const Service = require('egg').Service;
 
 class AccountService extends Service {
+  async getAccountDetailById(query) {
+    const { ctx } = this;
+    return await ctx.model.Account.detail(query);
+  }
 
   /**
    * 新增账号

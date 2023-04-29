@@ -18,6 +18,6 @@ module.exports = ctl => ({
   },
   get: {
     // 获取账号信息
-    '/getAccountInfo': ctl.account.index,
+    '/getAccountInfo': ctl.account.getAccountInfo,
   },
 });

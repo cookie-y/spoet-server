@@ -7,10 +7,10 @@ const Controller = require('../core/base_controller');
 class SecurityController extends Controller {
 
   // 获取用户信息
-  async index() {
+  async getAccountInfo() {
     const { ctx } = this;
 
-    const user = await ctx.model.Account.findById(1);
+    const user = await ctx.service.account.getAccountDetailById(1);
     this.success(user);
   }
 

@@ -31,5 +31,10 @@ module.exports = app => {
     return await Race.create(race);
   };
 
+  // 编辑队员
+  Race.edit = async (race, where) => {
+    return await Race.update(race, { where });
+  };
+
   return Race;
 };

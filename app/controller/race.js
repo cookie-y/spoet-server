@@ -82,13 +82,18 @@ class RaceController extends Controller {
 
   }
 
-  // 更新比赛信息
-  async update() {
+  // 编辑比赛信息
+  async editRace() {
     const { ctx } = this;
 
-    const user = await ctx.service.race.update(ctx.request.body);
+    // 校验
+    try {
+      await ctx.service.race.editRace();
 
-    this.success(user);
+      this.success();
+    } catch (error) {
+      this.fail(error);
+    }
   }
 
   // 删除比赛
