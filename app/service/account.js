@@ -5,7 +5,11 @@ const Service = require('egg').Service;
 class AccountService extends Service {
   async getAccountDetailById(accountId) {
     const { ctx } = this;
-    return await ctx.model.Account.detail(accountId);
+    const filter = {
+      where: { accountId },
+      include: 'school',
+    };
+    return await ctx.model.Account.detail(filter);
   }
 
   /**

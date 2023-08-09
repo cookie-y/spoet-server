@@ -1,6 +1,5 @@
 'use strict';
 
-
 const LocalStrategy = require('passport-local').Strategy;
 
 const mountPassportToCantroller = (keys, passport, controller) => {

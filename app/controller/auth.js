@@ -8,20 +8,6 @@ const { random } = require('lodash');
  * 鉴权
  */
 class AuthController extends Controller {
-  // 登录
-  async signIn() {
-    const { ctx } = this;
-
-    try {
-
-      await ctx.service.auth.validatePassword(ctx.request.body);
-
-      this.success();
-    } catch (error) {
-      this.fail(error);
-    }
-
-  }
   // 注册
   async signUp() {
     const { ctx, app } = this;
@@ -42,8 +28,16 @@ class AuthController extends Controller {
     }
   }
 
+  // 获取账号状态
+  async getAccountState() {
+    const { ctx } = this;
+    const query = ctx.request.query;
+    const account = await ctx.service.account.getAccountState(query);
+    this.success(account);
+  }
+
   // 发送验证码（邮件）
-  async sendSignUpCode() {
+  async getCode() {
     const { ctx, app } = this;
     const { email } = ctx.request.query;
     const code = random(1000, 9999);

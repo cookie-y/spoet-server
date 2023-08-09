@@ -46,8 +46,7 @@ module.exports = appInfo => {
     secret: '123456',
     enable: true,
     ignore(ctx) {
-      const paths = [ '/api/signIn', '/api/signUp', '/api/getSignUpCode' ];
-      return paths.includes(ctx.path);
+      return ctx.path.includes('/auth/');
     },
   };
 
@@ -69,8 +68,10 @@ module.exports = appInfo => {
     prefix: '/api',
   };
 
+
   return {
     ...config,
+    middleware: [ 'errorHandler' ],
     userConfig,
   };
 };

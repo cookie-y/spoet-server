@@ -23,6 +23,10 @@ module.exports = app => {
       type: STRING(255),
       allowNull: false,
     },
+    // 状态
+    state: {
+      type: INTEGER,
+    },
     // 邮箱
     email: {
       type: STRING(255),

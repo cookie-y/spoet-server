@@ -16,12 +16,12 @@ class AuthService extends Service {
    */
   async validatePassword({ accountId, password }) {
     const { ctx } = this;
-    const account = await ctx.model.Account.detail(accountId);
+    const account = await ctx.model.Account.findOne({ where: { accountId } });
     if (!account) {
-      ctx.throw(422, 'Validation Failed', { message: '账号不存在' });
+      ctx.throw(510, '账号不存在');
     }
     if (!await bcrypt.compare(password, account.password)) {
-      ctx.throw(422, 'Validation Failed', { message: '密码错误' });
+      ctx.throw(510, '密码错误');
     }
   }
 }

@@ -1,6 +1,7 @@
 'use strict';
 
 const bcrypt = require('bcrypt');
+const { assignFilter } = require('../utils/common');
 
 module.exports = app => {
   const Account = app.model.define('account', require('../schema/account')(app));
@@ -31,15 +32,13 @@ module.exports = app => {
     account.password = await bcrypt.hash(account.password, 10);
   });
 
-  /**
-   * * 获取账号信息
-   * @param {number} accountId 账号Id
-   */
-  Account.detail = async accountId => {
-    const filter = {
-      where: { accountId },
-      include: 'school',
+
+  // 获取账号信息
+  Account.detail = async origin => {
+    const common = {
+      attributes: { exclude: [ 'password' ] },
     };
+    const filter = assignFilter(origin, common);
     return await Account.findOne(filter);
   };
 
