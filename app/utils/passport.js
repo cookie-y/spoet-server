@@ -7,7 +7,7 @@ const mountPassportToCantroller = (keys, passport, controller) => {
     controller.passport = {};
   }
   keys.forEach(value => {
-    controller.passport[value] = passport.authenticate(value, { session: false, successRedirect: undefined });
+    controller.passport[value] = passport.authenticate(value, { successRedirect: undefined });
   });
 };
 

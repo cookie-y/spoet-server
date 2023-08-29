@@ -7,12 +7,4 @@ module.exports = {
     debug('use ' + account.provider);
     return require(`./${account.provider}`)(ctx, account);
   },
-
-  async serializeUser(ctx, account) {
-    return account;
-  },
-
-  async deserializeUser(ctx, account) {
-    return account;
-  },
 };

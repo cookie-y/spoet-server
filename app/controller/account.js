@@ -10,9 +10,10 @@ class SecurityController extends Controller {
   // 获取用户信息
   async getAccountInfo() {
     const { ctx } = this;
-
-    const user = await ctx.service.account.getAccountDetailById(45);
-    this.success(user);
+    if (ctx.isAuthenticated()) {
+      const user = await ctx.service.account.getAccountDetailById(ctx.user.accountId);
+      this.success(user);
+    }
   }
 
   // 新增账号
@@ -34,26 +35,44 @@ class SecurityController extends Controller {
   // 校验原密码
   async validatePassword() {
     const { ctx } = this;
-    try {
+
+    if (ctx.isAuthenticated()) {
       ctx.validate(rules.validatePasswordRule);
 
-      await ctx.service.auth.validatePassword(ctx.request.body);
+      await ctx.service.auth.validatePassword({ ...ctx.request.body, accountId: ctx.user.accountId });
 
       this.success(null, '密码正确');
-
-    } catch (error) {
-      this.fail(error);
     }
   }
 
   // 修改密码
-  updatePassword() {}
+  async editPassword() {
+    const { ctx } = this;
+    ctx.validate(rules.editPasswordRule);
+    await ctx.service.account.editPassword({ ...ctx.request.body, accountId: ctx.user.accountId });
+    this.success(null, '修改成功');
+  }
 
   // 校验原邮箱
-  validateEmail() {}
+  async validateEmail() {
+    const { ctx } = this;
+
+    if (ctx.isAuthenticated()) {
+      ctx.validate(rules.validateEmailRule);
+
+      await ctx.service.auth.validateEmail({ ...ctx.request.body, accountId: ctx.user.accountId });
+
+      this.success(null, '邮箱正确');
+    }
+  }
 
   // 修改邮箱
-  updateEmail() {}
+  async editEmail() {
+    const { ctx } = this;
+    ctx.validate(rules.editEmailRule);
+    await ctx.service.account.editEmail({ ...ctx.request.body, accountId: ctx.user.accountId });
+    this.success(null, '修改成功');
+  }
 
 }
 

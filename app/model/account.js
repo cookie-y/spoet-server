@@ -32,7 +32,6 @@ module.exports = app => {
     account.password = await bcrypt.hash(account.password, 10);
   });
 
-
   // 获取账号信息
   Account.detail = async origin => {
     const common = {
@@ -54,10 +53,13 @@ module.exports = app => {
    * * 更新用户信息
    * @param {number} accountId 账号Id
    */
-  Account.update = async accountId => {
-    return await Account.update({
-      where: { accountId },
-    });
+  Account.edit = async ({ accountId, ...others }) => {
+    await Account.update(
+      { ...others },
+      { where: { accountId },
+        individualHooks: true,
+      });
+
   };
 
   /**

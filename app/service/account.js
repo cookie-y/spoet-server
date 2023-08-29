@@ -24,6 +24,34 @@ class AccountService extends Service {
     const result = await ctx.model.Account.add(account);
     return result;
   }
+
+  /**
+   * 更新密码
+   *
+   * @param {*} params 新旧密码数据
+   * @return {*} 更新结果
+   * @memberof AccountService
+   */
+  async editPassword(params) {
+    const { ctx } = this;
+    params.password = params.newPassword;
+    const result = await ctx.model.Account.edit(params);
+    return result;
+  }
+
+  /**
+   * 更新邮箱
+   *
+   * @param {*} params 新旧邮箱数据
+   * @return {*} 更新结果
+   * @memberof AccountService
+   */
+  async editEmail(params) {
+    const { ctx } = this;
+    params.email = params.newEmail;
+    const result = await ctx.model.Account.edit(params);
+    return result;
+  }
 }
 
 module.exports = AccountService;
