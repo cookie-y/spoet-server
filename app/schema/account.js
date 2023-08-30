@@ -9,10 +9,6 @@ module.exports = app => {
       primaryKey: true,
       autoIncrement: true,
     },
-    // 所属学校id
-    schoolId: {
-      type: INTEGER,
-    },
     // 用户名
     accountName: {
       type: STRING(255),

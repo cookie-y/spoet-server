@@ -26,6 +26,19 @@ class AccountService extends Service {
   }
 
   /**
+   * 修改账号基本信息
+   *
+   * @param {*} account 待修改的账号数据
+   * @return {*} 修改结果
+   * @memberof AccountService
+   */
+  async editInfo(account) {
+    const { ctx } = this;
+    const result = await ctx.model.Account.edit(account);
+    return result;
+  }
+
+  /**
    * 更新密码
    *
    * @param {*} params 新旧密码数据

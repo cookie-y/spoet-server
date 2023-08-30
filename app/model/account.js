@@ -15,7 +15,7 @@ module.exports = app => {
   const MessageReceiver = app.model.define('messageReceiver', require('../schema/messageReceiver')(app));
 
   // 关系
-  Account.belongsTo(School, { foreignKey: 'schoolId', as: 'school', targetKey: 'schoolId' }); // 一个账号属于一个学校
+  Account.belongsTo(School, { foreignKey: 'schoolId' }); // 一个账号属于一个学校
   Account.hasMany(Race, { foreignKey: 'organizer', targetKey: 'accountId' }); // 一个账号可举办多场比赛
   Account.hasMany(Member, { foreignKey: 'facultyId', targetKey: 'accountId' }); // 一个账号有多个队员
   Account.hasMany(ParticipateRecord, { foreignKey: 'accountId', targetKey: 'accountId' }); // 一个账号可有多个队员参赛

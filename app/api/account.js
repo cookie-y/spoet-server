@@ -6,7 +6,7 @@ module.exports = ctl => ({
     // 新增账户
     '/addAccount': ctl.account.addAccount,
     // 修改账号基础资料
-    '/editAccountInfo': ctl.account.update,
+    '/editAccountInfo': ctl.account.editAccountInfo,
     // 校验原密码
     '/validatePassword': ctl.account.validatePassword,
     // 修改密码

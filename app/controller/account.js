@@ -23,13 +23,17 @@ class SecurityController extends Controller {
     this.success(ctx.state);
   }
 
-  // 更新信息
-  async update() {
+  // 更新账号信息
+  async editAccountInfo() {
     const { ctx } = this;
 
-    const user = await ctx.service.security.update(ctx.request.body);
+    if (ctx.isAuthenticated()) {
 
-    this.success(user);
+      await ctx.service.account.editInfo({ accountId: ctx.user.accountId, ...ctx.request.body });
+
+      this.success(null, '修改成功');
+    }
+
   }
 
   // 校验原密码
