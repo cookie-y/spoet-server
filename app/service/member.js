@@ -28,9 +28,10 @@ class RaceService extends Service {
   // 新增队员
   async addMember(member) {
     const { ctx } = this;
-    const image = await ctx.service.storage.uploadFile('member', member.image);
-    const data = { ...member, image };
-    const result = await ctx.model.Member.add(data);
+    const result = await ctx.model.Member.add(member);
+    if (!result) {
+      ctx.throw(510, '该学号已绑定');
+    }
     return result;
   }
 

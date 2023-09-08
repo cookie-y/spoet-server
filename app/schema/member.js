@@ -33,10 +33,11 @@ module.exports = app => {
       type: STRING(255),
       allowNull: true,
     },
-    // 类型 0 主攻手 1 二传 2 副攻 3 自由人
+    // 类型
     type: {
       type: INTEGER,
       allowNull: true,
+      comment: '0 主攻手 1 二传 2 副攻 3 自由人 4 接应',
     },
     // 是否为队长
     isCaptain: {

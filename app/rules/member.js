@@ -2,10 +2,6 @@
 
 // 获取队员列表接口参数校验
 const memberListRule = {
-  accountId: {
-    type: 'stringNumber',
-    required: true,
-  },
   page: {
     type: 'stringNumber',
     required: true,
@@ -22,19 +18,11 @@ const delOrDetailRule = {
     type: 'stringNumber',
     required: true,
   },
-  facultyId: {
-    type: 'stringNumber',
-    required: true,
-  },
 };
 
 // 新增队员接口参数校验
 const addOrEditMemberRule = {
   studentId: {
-    type: 'stringNumber',
-    required: true,
-  },
-  facultyId: {
     type: 'stringNumber',
     required: true,
   },
@@ -45,7 +33,7 @@ const addOrEditMemberRule = {
   sex: {
     type: 'enum',
     required: true,
-    values: [ '0', '1' ],
+    values: [ 0, 1 ],
   },
   phone: {
     type: 'stringNumber',
@@ -57,9 +45,8 @@ const addOrEditMemberRule = {
     max: 5,
   },
   isCaptain: {
-    type: 'enum',
+    type: 'boolean',
     required: true,
-    values: [ '0', '1' ],
   },
 };
 

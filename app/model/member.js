@@ -18,12 +18,16 @@ module.exports = app => {
 
   // 查询详情
   Member.detail = async where => {
+    console.log(await Member.findOne({ where }), where);
     return await Member.findOne({ where });
   };
 
   // 新增队员
   Member.add = async member => {
-    return await Member.create(member);
+    const result = await Member.findByPk(member.studentId);
+    if (!result) {
+      return await Member.create(member);
+    }
   };
 
   // 编辑队员
