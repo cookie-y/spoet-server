@@ -6,59 +6,25 @@ const { Op } = require('sequelize');
 class RaceService extends Service {
 
   // 获取比赛列表
-  async getRaceList(race) {
+  async getRaceList(filter) {
     const { ctx } = this;
-    const { page, pageSize, keyword, ...query } = race;
-    const where = { ...query };
-    if (keyword) {
-      where.raceName = { [Op.substring]: keyword };
-    }
-
-    const filter = {
-      where,
-      limit: +pageSize,
-      offset: (page - 1) * pageSize,
-      include: 'organize',
-    };
 
     const result = await ctx.model.Race.list(filter);
     return result;
   }
 
   // 获取我举办的比赛列表
-  async getMyHostRaceList(race) {
+  async getMyHostRaceList(filter) {
     const { ctx } = this;
-    const { page, pageSize, ...query } = race;
-
-    const filter = {
-      where: { ...query },
-      limit: +pageSize,
-      offset: (page - 1) * pageSize,
-      include: 'organize',
-    };
 
     const result = await ctx.model.Race.list(filter);
     return result;
   }
 
   // 获取我参加的比赛列表
-  async getMyAttendList(accountId, page, size) {
+  async getMyAttendList(filter) {
     const { ctx } = this;
-    const filter = {
-      include: {
-        model: ctx.model.ParticipateRecord,
-        as: 'participates',
-        where: {
-          accountId,
-        },
-      },
-      order: [
-        [ 'applyStart', 'DESC' ],
-      ],
-      limit: +size,
-      offset: +size * (+page - 1),
-    };
-    const result = await ctx.model.Race.getListPaginated(filter);
+    const result = await ctx.service.participate.getRaceListOfAccount(filter);
     return result;
   }
 
@@ -94,12 +60,7 @@ class RaceService extends Service {
   // 新增比赛
   async addRace(race) {
     const { ctx } = this;
-    const [ annex, racePoster, venueImgs ] = await Promise.all([
-      ctx.service.storage.uploadFile('race', race.annex),
-      ctx.service.storage.uploadFile('race', race.racePoster),
-      ctx.service.storage.uploadFile('race', race.venueImgs),
-    ]);
-    const result = await ctx.model.Race.add({ ...race, annex, racePoster, venueImgs });
+    const result = await ctx.model.Race.add(race);
     return result;
   }
 

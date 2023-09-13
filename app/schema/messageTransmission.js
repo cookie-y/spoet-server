@@ -9,7 +9,7 @@ module.exports = app => {
       primaryKey: true,
       autoIncrement: true,
     },
-    // 接受者id
+    // 接收者id
     receverId: {
       type: INTEGER,
       allowNull: false,
@@ -20,7 +20,7 @@ module.exports = app => {
       allowNull: false,
     },
     // 消息是否已读
-    read: {
+    readed: {
       type: BOOLEAN,
       allowNull: false,
       defaultValue: false,

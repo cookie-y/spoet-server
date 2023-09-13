@@ -5,6 +5,25 @@ const _ = require('lodash');
 
 class ParticipateService extends Service {
   /**
+   * 获取比赛的参赛队伍列表
+   *
+   * @memberof ParticipateService
+   */
+  async getEntryListOfRace() {}
+
+  /**
+   * 获取账号参加的比赛列表
+   *
+   * @param {*} filter
+   * @memberof ParticipateService
+   */
+  async getRaceListOfAccount(filter) {
+    const { ctx } = this;
+    const list = await ctx.model.ParticipateRecord.list(filter);
+    return list;
+  }
+
+  /**
    * 自动分组
    * @param {Int} raceId 比赛id
    * @param {Int} groupNum 分组组数
@@ -14,7 +33,7 @@ class ParticipateService extends Service {
   async automaticGrouping(raceId, groupNum, special) {
     const { ctx } = this;
     // 获取参赛名单
-    const participateAccounts = await ctx.model.ParticipateRecord.getParticipateAccountList(+raceId);
+    const participateAccounts = await ctx.model.ParticipateRecord.list(+raceId);
 
     // 每组名额
     const maxSum = _.ceil(participateAccounts.length / groupNum);
@@ -44,7 +63,7 @@ class ParticipateService extends Service {
     const { ctx } = this;
     const data = { group: String.fromCharCode(65 + index) };
     const filter = { raceId, accountId };
-    const result = await ctx.model.ParticipateRecord.updateData(data, filter);
+    const result = await ctx.model.ParticipateRecord.edit(data, filter);
     return result;
   }
 }

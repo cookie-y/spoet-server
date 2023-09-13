@@ -54,6 +54,16 @@ module.exports = app => {
     venueImgs: {
       type: STRING(255),
     },
+    // 赛制 1 五局三胜，2 三局两胜
+    rule: {
+      type: INTEGER,
+      defaultValue: 1,
+    },
+    // 限制 1 女队，2 男队，3 混合场
+    limit: {
+      type: INTEGER,
+      defaultValue: 1,
+    },
     // 注意事项
     tips: {
       type: STRING(255),

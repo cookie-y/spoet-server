@@ -3,7 +3,7 @@
 module.exports = app => {
   const Account = app.model.define('account', require('../schema/account')(app));
   const Message = app.model.define('message', require('../schema/message')(app));
-  const MessageReceiver = app.model.define('messageReceiver', require('../schema/messageReceiver')(app));
+  const MessageReceiver = app.model.define('messageReceiver', require('../schema/messageTransmission')(app));
 
   // 关系
   MessageReceiver.belongsTo(Account, { foreignKey: 'receverId', targetKey: 'accountId' }); // 一个消息只有一个发送方

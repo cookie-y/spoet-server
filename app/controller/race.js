@@ -1,7 +1,7 @@
 'use strict';
 const Controller = require('../core/base_controller');
 const rules = require('../rules/race');
-const { groupBy } = require('lodash');
+const { Op } = require('sequelize');
 
 /**
  * * 安全
@@ -10,37 +10,37 @@ class RaceController extends Controller {
   // 获取比赛列表
   async getRaceList() {
     const { ctx } = this;
-    try {
-      await ctx.validate(rules.raceListRule, ctx.query);
-      const race = await ctx.service.race.getRaceList(ctx.request.query);
-      this.success(race);
-    } catch (error) {
-      this.fail(error);
+    await ctx.validate(rules.raceListRule, ctx.query);
+    const { page = 1, pageSize = 10, type, keyword, ...query } = ctx.request.query;
+    let filter = {
+      limit: +pageSize,
+      offset: (page - 1) * pageSize,
+    };
+    let list = [];
+    if (type === 'host') {
+      // 我举办的
+      filter.where = { organizer: ctx.user.accountId };
+      list = await ctx.service.race.getMyHostRaceList(filter);
+    } else if (type === 'attend') {
+      // 我参加的
+      filter = {
+        ...filter,
+        include: 'race',
+        attributes: [ 'raceId' ],
+        order: [[ 'race', 'applyStart', 'DESC' ]],
+        where: { accountId: ctx.user.accountId },
+      };
+      list = await ctx.service.race.getMyAttendList(filter);
+    } else if (type === 'recommend') {
+      list = await ctx.service.race.getHotList(filter);
+    } else {
+      filter.where = { ...query };
+      if (keyword) {
+        filter.where.raceName = { [Op.substring]: keyword };
+      }
+      list = await ctx.service.race.getRaceList(filter);
     }
-  }
-
-  // 获取我举办的比赛列表
-  async getMyHostRaceList() {
-    const { ctx } = this;
-    const list = await ctx.service.race.getMyHostRaceList(ctx.request.query);
-
     this.success(list);
-  }
-
-  // 获取我参加的比赛列表
-  async getMyAttendRaces() {
-    const { ctx } = this;
-    const { accountId, page = 1, size = 10 } = ctx.query;
-    const list = await ctx.service.race.getMyAttendList(+accountId, page, size);
-
-    this.success(list);
-  }
-
-  // 获取热搜列表
-  async getHotList() {
-    const { ctx } = this;
-    const race = await ctx.service.race.getHotList();
-    this.success(race);
   }
 
   // 获取比赛详情
@@ -62,23 +62,16 @@ class RaceController extends Controller {
     const { ctx } = this;
 
     // 校验
-    try {
-      ctx.validate(rules.addRaceRule);
+    ctx.validate(rules.addRaceRule);
 
-      const { annex, venueImgs, racePoster } = groupBy(ctx.request.files, 'fieldname');
+    const race = {
+      ...ctx.request.body,
+      organizer: ctx.user.accountId,
+    };
 
-      const race = {
-        ...ctx.request.body,
-        annex,
-        venueImgs,
-        racePoster,
-      };
-      await ctx.service.race.addRace(race);
+    await ctx.service.race.addRace(race);
 
-      this.success();
-    } catch (error) {
-      this.fail(error);
-    }
+    this.success();
 
   }
 

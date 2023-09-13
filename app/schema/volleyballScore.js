@@ -4,7 +4,7 @@ module.exports = app => {
   const { INTEGER, STRING, DATE } = app.Sequelize;
   return {
     // 比分记录id
-    recordId: {
+    id: {
       type: INTEGER,
       primaryKey: true,
       autoIncrement: true, // 自增

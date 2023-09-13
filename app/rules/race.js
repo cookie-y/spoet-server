@@ -2,6 +2,10 @@
 
 // 获取比赛列表接口参数校验
 const raceListRule = {
+  type: {
+    type: 'string',
+    required: false,
+  },
   state: {
     type: 'stringNumber',
   },
@@ -40,14 +44,6 @@ const addRaceRule = {
   raceStart: {
     type: 'date',
     required: false,
-  },
-  raceEnd: {
-    type: 'date',
-    required: false,
-  },
-  organizer: {
-    type: 'id',
-    required: true,
   },
 };
 
