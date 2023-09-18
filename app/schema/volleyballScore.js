@@ -36,9 +36,8 @@ module.exports = app => {
       type: STRING(255),
     },
     // 获胜方id
-    winner: {
-      type: INTEGER,
-      allowNull: false,
+    integral: {
+      type: STRING(255),
     },
   };
 };

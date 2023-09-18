@@ -8,6 +8,7 @@ const raceListRule = {
   },
   state: {
     type: 'stringNumber',
+    required: false,
   },
   page: {
     type: 'stringNumber',

@@ -9,19 +9,14 @@ module.exports = app => {
       primaryKey: true,
       autoIncrement: true, // 自增
     },
-    // 比赛id
-    raceId: {
-      type: INTEGER,
-    },
-    // 参赛队员学号
-    studentId: {
-      type: INTEGER,
-      allowNull: false,
-    },
     // 参赛队员所属组织
     accountId: {
       type: INTEGER,
       allowNull: false,
+    },
+    // 比赛id
+    raceId: {
+      type: INTEGER,
     },
     // 分组情况
     group: {

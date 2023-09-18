@@ -16,6 +16,7 @@ module.exports = app => {
   // 关系
   Account.belongsTo(School, { foreignKey: 'schoolId' }); // 一个账号属于一个学校
   Account.hasMany(Race, { foreignKey: 'organizer', targetKey: 'accountId' }); // 一个账号可举办多场比赛
+  Account.belongsToMany(Race, { through: ParticipateRecord, foreignKey: 'accountId', otherKey: 'raceId' }); // 一个账号可参加多个比赛
   Account.hasMany(Member, { foreignKey: 'facultyId', targetKey: 'accountId' }); // 一个账号有多个队员
   Account.hasMany(ParticipateRecord, { foreignKey: 'accountId', targetKey: 'accountId' }); // 一个账号可有多个队员参赛
   Account.hasMany(SearchRecord, { foreignKey: 'accountId', targetKey: 'accountId' }); // 一个账号可有多个搜索记录

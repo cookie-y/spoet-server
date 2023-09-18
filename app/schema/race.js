@@ -32,7 +32,7 @@ module.exports = app => {
     // 阅读量
     pv: {
       type: INTEGER,
-      default: 0,
+      defaultValue: 1,
     },
     // 报名开始时间
     applyStart: {

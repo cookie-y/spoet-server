@@ -24,7 +24,7 @@ class RaceService extends Service {
   // 获取我参加的比赛列表
   async getMyAttendList(filter) {
     const { ctx } = this;
-    const result = await ctx.service.participate.getRaceListOfAccount(filter);
+    const result = await ctx.service.participateRecord.getRaceListOfAccount(filter);
     return result;
   }
 
@@ -33,16 +33,23 @@ class RaceService extends Service {
     const { ctx } = this;
     const filter = {
       where: { raceId },
-      include: [ 'organize', 'participates' ],
+      include: 'organize',
     };
     const result = await ctx.model.Race.detail(filter);
     return result;
   }
 
   // 获取热搜列表
-  async getHotList() {
+  async getRecommendRace() {
     const { ctx } = this;
     const filter = {
+      include: [{
+        model: ctx.model.Account,
+        as: 'participates',
+        through: {
+          attributes: [],
+        },
+      }],
       where: {
         state: {
           [Op.ne]: 0,
@@ -53,7 +60,7 @@ class RaceService extends Service {
       ],
       limit: 10,
     };
-    const result = await ctx.model.Race.getList(filter);
+    const result = await ctx.model.Race.list(filter);
     return result;
   }
 
@@ -65,7 +72,19 @@ class RaceService extends Service {
   }
 
   // 更新比赛信息
-  editRace() {}
+  async editRace(race) {
+    const { ctx } = this;
+    const { raceId, ...others } = race;
+    const result = await ctx.model.Race.edit(others, { raceId });
+    return result;
+  }
+
+  // 删除比赛
+  async delRace(raceId) {
+    const { ctx } = this;
+    const result = await ctx.model.Race.del({ raceId });
+    return result;
+  }
 
 }
 

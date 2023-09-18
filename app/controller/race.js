@@ -19,7 +19,11 @@ class RaceController extends Controller {
     let list = [];
     if (type === 'host') {
       // 我举办的
-      filter.where = { organizer: ctx.user.accountId };
+      filter = {
+        ...filter,
+        order: [[ 'applyStart', 'DESC' ]],
+        where: { organizer: ctx.user.accountId },
+      };
       list = await ctx.service.race.getMyHostRaceList(filter);
     } else if (type === 'attend') {
       // 我参加的
@@ -31,8 +35,6 @@ class RaceController extends Controller {
         where: { accountId: ctx.user.accountId },
       };
       list = await ctx.service.race.getMyAttendList(filter);
-    } else if (type === 'recommend') {
-      list = await ctx.service.race.getHotList(filter);
     } else {
       filter.where = { ...query };
       if (keyword) {
@@ -43,18 +45,21 @@ class RaceController extends Controller {
     this.success(list);
   }
 
+  // 获取推荐的比赛列表
+  async getRecommendRace() {
+    const { ctx } = this;
+    const list = await ctx.service.race.getRecommendRace();
+    this.success(list);
+  }
+
   // 获取比赛详情
   async getRaceDetail() {
     const { ctx } = this;
     const { query } = ctx.request;
-    try {
-      ctx.validate(rules.raceDetailRule, query);
+    ctx.validate(rules.raceDetailRule, query);
 
-      const race = await ctx.service.race.getDetail(query.raceId);
-      this.success(race);
-    } catch (error) {
-      this.fail(error);
-    }
+    const race = await ctx.service.race.getDetail(query.raceId);
+    this.success(race);
   }
 
   // 新增比赛
@@ -79,21 +84,17 @@ class RaceController extends Controller {
   async editRace() {
     const { ctx } = this;
 
-    // 校验
-    try {
-      await ctx.service.race.editRace();
+    await ctx.service.race.editRace(ctx.request.body);
 
-      this.success();
-    } catch (error) {
-      this.fail(error);
-    }
+    this.success();
   }
 
   // 删除比赛
   async delete() {
     const { ctx } = this;
+    const { raceId } = ctx.request.query;
 
-    await ctx.service.security.logout();
+    await ctx.service.race.delRace(raceId);
 
     this.success();
 
@@ -102,7 +103,7 @@ class RaceController extends Controller {
   async automaticGrouping() {
     const { ctx } = this;
     const { raceId, groupNum, special } = ctx.request.body;
-    await ctx.service.participate.automaticGrouping(+raceId, +groupNum, special.split(','));
+    await ctx.service.ParticipateRecord.automaticGrouping(+raceId, +groupNum, special.split(','));
     this.success();
   }
 }

@@ -10,5 +10,8 @@ module.exports = ctl => ({
   get: {
     // 获取比赛列表
     '/getRaceList': ctl.race.getRaceList,
+    '/getRecommendRace': ctl.race.getRecommendRace,
+    // 获取比赛详情
+    '/getRaceDetail': ctl.race.getRaceDetail,
   },
 });

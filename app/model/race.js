@@ -9,15 +9,20 @@ module.exports = app => {
   const ParticipateRecord = app.model.define('participateRecord', require('../schema/participateRecord')(app));
 
   // 关系
-  Race.belongsTo(Account, { foreignKey: 'organizer', as: 'organize', targetKey: 'accountId' }); // 一个账号可以举办多场比赛
-  Race.hasMany(ParticipateRecord, { foreignKey: 'raceId', as: 'participates', targetKey: 'raceId' }); // 一场比赛有多条参赛记录
+  Race.belongsToMany(Account, { as: 'participates', through: ParticipateRecord, foreignKey: 'raceId', otherKey: 'accountId' }); // 一场比赛有多条参赛记录
+  Race.belongsTo(Account, { as: 'organize', foreignKey: 'organizer', targetKey: 'accountId' }); // 一个账号可以举办多场比赛
+  Race.hasMany(ParticipateRecord, { foreignKey: 'raceId', targetKey: 'raceId' }); // 一场比赛有多条参赛记录
   Race.hasMany(Message, { foreignKey: 'raceId', targetKey: 'raceId' }); // 一场比赛有多条消息记录
   Race.hasMany(VolleyballScore, { foreignKey: 'raceId', targetKey: 'raceId' }); // 一场比赛有多条比赛结果记录
 
   // 查询列表
   Race.list = async origin => {
     const common = {
-      include: 'organize',
+      include: [{
+        model: Account,
+        as: 'organize',
+        attributes: [ 'accountName' ],
+      }],
     };
     const filter = assignFilter(origin, common);
     const { rows, count } = await Race.findAndCountAll(filter);
@@ -37,6 +42,11 @@ module.exports = app => {
   // 编辑队员
   Race.edit = async (race, where) => {
     return await Race.update(race, { where });
+  };
+
+  // 删除队员
+  Race.del = async where => {
+    return await Race.destroy({ where });
   };
 
   return Race;

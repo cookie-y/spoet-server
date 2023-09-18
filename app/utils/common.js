@@ -9,7 +9,11 @@ module.exports = {
       }
       if (isArray(source[key])) {
         // attributes设置为数组时，以数组条件为主
-        object[key] = source[key];
+        if (key === 'attributes') {
+          object[key] = source[key];
+        } else if (key === 'include') {
+          object[key] = [ ...object[key], ...source[key] ];
+        }
       } else if (isObject(object[key])) {
         object[key] = {
           ...object[key],
