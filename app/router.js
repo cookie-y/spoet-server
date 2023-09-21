@@ -14,6 +14,7 @@ module.exports = app => {
   initRouterMap(prefix, require('./api/school')(controller), app);
   initRouterMap(prefix, require('./api/account')(controller), app);
   initRouterMap(prefix, require('./api/member')(controller), app);
+  initRouterMap(prefix, require('./api/participate')(controller), app);
   initRouterMap(prefix, require('./api/race')(controller), app);
 
 };

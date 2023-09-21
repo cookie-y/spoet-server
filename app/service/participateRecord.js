@@ -24,6 +24,20 @@ class ParticipateService extends Service {
   }
 
   /**
+   * 新增参赛队伍
+   *
+   * @param {number} raceId 参加的比赛id
+   * @param {number} accountId 参加队伍id
+   * @return {number} 参赛记录id
+   * @memberof ParticipateService
+   */
+  async addParticipatingTeam(raceId, accountId) {
+    const { ctx } = this;
+    const result = await ctx.model.ParticipateRecord.add({ raceId, accountId });
+    return result.id;
+  }
+
+  /**
    * 自动分组
    * @param {Int} raceId 比赛id
    * @param {Int} groupNum 分组组数

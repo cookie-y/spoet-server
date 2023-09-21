@@ -59,8 +59,8 @@ module.exports = app => {
       type: INTEGER,
       defaultValue: 1,
     },
-    // 限制 1 女队，2 男队，3 混合场
-    limit: {
+    // 场类型 1 女队，2 男队，3 混合场
+    kind: {
       type: INTEGER,
       defaultValue: 1,
     },

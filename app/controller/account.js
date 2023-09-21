@@ -3,9 +3,9 @@ const Controller = require('../core/base_controller');
 const rules = require('../rules/account');
 
 /**
- * * 安全
+ * * 账号
  */
-class SecurityController extends Controller {
+class AccountController extends Controller {
 
   // 获取用户信息
   async getAccountInfo() {
@@ -28,6 +28,7 @@ class SecurityController extends Controller {
     const { ctx } = this;
 
     if (ctx.isAuthenticated()) {
+      ctx.validate(rules.editAccountInfoRule);
 
       await ctx.service.account.editInfo({ accountId: ctx.user.accountId, ...ctx.request.body });
 
@@ -80,4 +81,4 @@ class SecurityController extends Controller {
 
 }
 
-module.exports = SecurityController;
+module.exports = AccountController;

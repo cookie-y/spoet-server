@@ -10,5 +10,14 @@ module.exports = app => {
       autoIncrement: true,
       allowNull: false,
     },
+    // 参赛队员学号
+    studentId: {
+      type: INTEGER,
+      allowNull: false,
+    },
+    // 参赛队伍记录id
+    participateId: {
+      type: INTEGER,
+    },
   };
 };

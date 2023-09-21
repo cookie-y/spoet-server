@@ -1,5 +1,24 @@
 'use strict';
 
+// 修改账号基础资料接口参数校验
+const editAccountInfoRule = {
+  // 学校ID
+  schoolId: {
+    type: 'number',
+    required: true,
+  },
+  // 用户名
+  accountName: {
+    type: 'string',
+    required: true,
+  },
+  // 账号Logo
+  logo: {
+    type: 'string',
+    required: true,
+  },
+};
+
 // 校验密码接口参数校验
 const validatePasswordRule = {
   // 密码
@@ -47,6 +66,7 @@ const editEmailRule = {
 };
 
 module.exports = {
+  editAccountInfoRule,
   validatePasswordRule,
   editPasswordRule,
   validateEmailRule,

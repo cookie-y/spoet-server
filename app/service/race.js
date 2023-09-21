@@ -45,7 +45,7 @@ class RaceService extends Service {
     const filter = {
       include: [{
         model: ctx.model.Account,
-        as: 'participates',
+        as: 'participants',
         through: {
           attributes: [],
         },

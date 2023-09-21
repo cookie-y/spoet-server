@@ -5,12 +5,12 @@ module.exports = app => {
   const Member = app.model.define('member', require('../schema/member')(app), { paranoid: true });
   const Account = app.model.define('account', require('../schema/account')(app));
   const ParticipateRecord = app.model.define('participateRecord', require('../schema/participateRecord')(app));
-  const ParticipateMember = app.model.define('account', require('../schema/participateMember')(app));
+  const Participant = app.model.define('participant', require('../schema/participant')(app));
 
   // 关系
   Member.belongsTo(Account, { as: 'team', foreignKey: 'facultyId', targetKey: 'accountId' }); // 一个学生属于一个账号
   Member.hasMany(ParticipateRecord, { foreignKey: 'studentId', targetKey: 'studentId' }); // 一个学生可参加多个比赛
-  Member.belongsToMany(ParticipateRecord, { through: ParticipateMember, foreignKey: 'studentId', otherKey: 'participateId' }); // 一个账号可参加多个比赛
+  Member.belongsToMany(ParticipateRecord, { through: Participant, foreignKey: 'studentId', otherKey: 'participateId' }); // 一个账号可参加多个比赛
 
   // 查询列表
   Member.list = async (where, limit, offset) => {
