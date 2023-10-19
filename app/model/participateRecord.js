@@ -9,7 +9,7 @@ module.exports = app => {
 
   // 关系
   ParticipateRecord.belongsTo(Race, { foreignKey: 'raceId' });
-  ParticipateRecord.belongsTo(Account, { as: 'ParticipateTeam', foreignKey: 'accountId' });
+  ParticipateRecord.belongsTo(Account, { as: 'participateTeam', foreignKey: 'accountId' });
   ParticipateRecord.hasMany(Member);
   ParticipateRecord.belongsToMany(Member, { through: Participant, foreignKey: 'participateId', otherKey: 'studentId' }); // 一场比赛有多条参赛记录
 
@@ -21,7 +21,6 @@ module.exports = app => {
 
   // 更新参赛列表
   ParticipateRecord.edit = async (data, filter) => {
-    console.log(data, filter);
     return await ParticipateRecord.update(data, {
       where: filter,
     });

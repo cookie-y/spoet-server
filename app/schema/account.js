@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = app => {
-  const { INTEGER, STRING, BOOLEAN } = app.Sequelize;
+  const { INTEGER, STRING } = app.Sequelize;
   return {
     // 账号
     accountId: {
@@ -33,12 +33,6 @@ module.exports = app => {
     logo: {
       type: STRING(255),
       allowNull: true,
-    },
-    // 超级管理员
-    admin: {
-      type: BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
     },
   };
 
