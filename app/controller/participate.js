@@ -20,6 +20,19 @@ class AccountController extends Controller {
     this.success();
   }
 
+  // 分组
+  async editGroupInf() {
+    try {
+      const { ctx } = this;
+      ctx.validate(rules.groupRule);
+      const { raceId, list } = ctx.request.body;
+      await ctx.service.participateRecord.editGroupInf(raceId, list);
+      this.success();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   // 获取比赛的所有参赛队员
   async getParticipateTeamList() {
     const { ctx } = this;

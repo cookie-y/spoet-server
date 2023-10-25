@@ -1,7 +1,7 @@
 'use strict';
 
 const Service = require('egg').Service;
-const _ = require('lodash');
+const { Op } = require('sequelize');
 
 class ParticipateService extends Service {
   /**
@@ -81,47 +81,19 @@ class ParticipateService extends Service {
   }
 
   /**
-   * 自动分组
-   * @param {Int} raceId 比赛id
-   * @param {Int} groupNum 分组组数
-   * @param {IntArray} special 特殊处理账号
-   * @return 分组情况数组
+   * 编辑分组信息
+   *
+   * @param {*} raceId 比赛id
+   * @param {*} list 修改账号id列表
+   * @memberof ParticipateService
    */
-  async automaticGrouping(raceId, groupNum, special) {
+  async editGroupInf(raceId, list) {
     const { ctx } = this;
-    // 获取参赛名单
-    const participateAccounts = await ctx.model.ParticipateRecord.list(+raceId);
-
-    // 每组名额
-    const maxSum = _.ceil(participateAccounts.length / groupNum);
-    const result = new Array(groupNum);
-
-    // 特殊处理
-    special.forEach(async (value, index) => {
-      result[index] = [ +value ];
-      await this.updateGroup(raceId, value, index);
+    list.forEach(async (value, index) => {
+      const data = { group: String.fromCharCode(index + 65) };
+      const filter = { raceId, accountId: { [Op.in]: value } };
+      await ctx.model.ParticipateRecord.edit(data, filter);
     });
-
-    // 分组数据处理
-    participateAccounts.forEach(async value => {
-      if (!special.includes(String(value.accountId))) {
-        let tem = 0;
-        do {
-          tem = _.random(groupNum - 1);
-        } while (result[tem].length >= maxSum);
-        result[tem].push(value.accountId);
-        await this.updateGroup(raceId, value.accountId, tem);
-      }
-    });
-  }
-
-  // 更新参赛分组
-  async updateGroup(raceId, accountId, index) {
-    const { ctx } = this;
-    const data = { group: String.fromCharCode(65 + index) };
-    const filter = { raceId, accountId };
-    const result = await ctx.model.ParticipateRecord.edit(data, filter);
-    return result;
   }
 }
 

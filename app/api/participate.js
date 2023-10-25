@@ -5,6 +5,8 @@ module.exports = ctl => ({
   post: {
     // 参加比赛
     '/addParticipants': ctl.participate.addParticipants,
+    // 分组
+    '/editGroupInf': ctl.participate.editGroupInf,
   },
   get: {
     // 获取比赛的所有参赛队伍

@@ -14,6 +14,20 @@ const addParticipantRule = {
   },
 };
 
+// 录入分组信息接口参数校验
+const groupRule = {
+  list: {
+    type: 'array',
+    require: true,
+  },
+  // 参加的比赛id
+  raceId: {
+    type: 'int',
+    require: true,
+  },
+
+};
+
 // 获取比赛参赛队列表接口参数校验
 const getParticipateTeamListRule = {
   // 比赛id
@@ -40,6 +54,7 @@ const getTeamParticipantListRule = {
 
 module.exports = {
   addParticipantRule,
+  groupRule,
   getParticipateTeamListRule,
   getTeamParticipantListRule,
 };
