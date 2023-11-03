@@ -5,7 +5,7 @@ module.exports = app => {
   const VolleyballScore = app.model.define('volleyballScore', require('../schema/volleyballScore')(app));
   const Participant = app.model.define('participant', require('../schema/participant')(app));
   const Account = app.model.define('account', require('../schema/account')(app));
-  const Member = app.model.define('member', require('../schema/member')(app), { paranoid: true });
+  const Member = app.model.define('member', require('../schema/member')(app));
   const Race = app.model.define('race', require('../schema/race')(app));
 
   // 关系

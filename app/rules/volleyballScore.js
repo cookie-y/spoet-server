@@ -1,13 +1,41 @@
 'use strict';
 
 // 新增赛程接口参数校验
-const addScheduleRule = {
+const addRule = {
+  raceId: {
+    type: 'number',
+    required: true,
+  },
+  schedule: {
+    type: 'array',
+    required: true,
+    itemType: 'object',
+    rule: {
+      date: 'date',
+      time: 'string',
+      place: 'string',
+      adversaryA: 'number',
+      adversaryB: 'number',
+    },
+  },
+};
+
+// 根据ID编辑赛程接口参数校验
+const editScheduleByIdRule = {
+  id: {
+    type: 'number',
+    required: true,
+  },
+  time: {
+    type: 'string',
+    required: true,
+  },
   date: {
     type: 'date',
     required: true,
   },
-  arrange: {
-    type: 'array',
+  place: {
+    type: 'string',
     required: true,
   },
 };
@@ -24,7 +52,26 @@ const schedleListRule = {
   },
 };
 
+// 获取赛程详情接口参数校验
+const detailRule = {
+  id: {
+    type: 'id',
+    required: true,
+  },
+};
+
+// 删除赛程详情接口参数校验
+const delRule = {
+  id: {
+    type: 'array',
+    required: true,
+  },
+};
+
 module.exports = {
-  addScheduleRule,
+  addRule,
+  editScheduleByIdRule,
   schedleListRule,
+  detailRule,
+  delRule,
 };
