@@ -68,10 +68,32 @@ const delRule = {
   },
 };
 
+// 获取赛程日期列表接口参数校验
+const dateListRule = {
+  raceId: {
+    type: 'id',
+    required: true,
+  },
+};
+
+// 获取赛程日期列表接口参数校验
+const enterScoreRule = {
+  id: {
+    type: 'number',
+    required: true,
+  },
+  results: {
+    type: 'string',
+    required: true,
+  },
+};
+
 module.exports = {
   addRule,
   editScheduleByIdRule,
   schedleListRule,
   detailRule,
   delRule,
+  dateListRule,
+  enterScoreRule,
 };

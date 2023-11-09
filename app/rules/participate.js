@@ -39,13 +39,8 @@ const getParticipateTeamListRule = {
 
 // 获取比赛参赛队伍的参赛队员列表接口参数校验
 const getTeamParticipantListRule = {
-  // 比赛id
-  raceId: {
-    type: 'stringNumber',
-    require: true,
-  },
-  // 队伍id
-  teamId: {
+  // 参赛id
+  participateId: {
     type: 'stringNumber',
     require: true,
   },

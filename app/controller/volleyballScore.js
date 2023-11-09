@@ -11,8 +11,33 @@ class VolleyballScoreController extends Controller {
     const { ctx } = this;
     await ctx.validate(rules.schedleListRule, ctx.query);
     const filter = {
-      ...ctx.query,
-      date: ctx.query.date || dayjs().format('YYYY-MM-DD'),
+      attributes: { exclude: [ 'createdAt', 'updatedAt' ] },
+      where: {
+        ...ctx.query,
+        date: ctx.query.date || dayjs().format('YYYY-MM-DD'),
+      },
+      include: [
+        {
+          model: ctx.model.ParticipateRecord,
+          attributes: { exclude: [ 'createdAt', 'updatedAt' ] },
+          as: 'A',
+          include: {
+            model: ctx.model.Account,
+            attributes: { exclude: [ 'createdAt', 'updatedAt', 'deletedAt' ] },
+            as: 'participateTeam',
+          },
+        },
+        {
+          model: ctx.model.ParticipateRecord,
+          attributes: { exclude: [ 'createdAt', 'updatedAt' ] },
+          as: 'B',
+          include: {
+            model: ctx.model.Account,
+            attributes: { exclude: [ 'createdAt', 'updatedAt', 'deletedAt' ] },
+            as: 'participateTeam',
+          },
+        },
+      ],
     };
     let data = await ctx.service.volleyballScore.getScheduleList(filter);
     if (!ctx.query.time) {
@@ -26,7 +51,32 @@ class VolleyballScoreController extends Controller {
     const { ctx } = this;
     await ctx.validate(rules.detailRule, ctx.query);
     const { id } = ctx.request.query;
-    const data = await ctx.service.volleyballScore.getScheduleDetail(id);
+    const filter = {
+      where: { id },
+      include: [
+        {
+          model: ctx.model.ParticipateRecord,
+          attributes: { exclude: [ 'createdAt', 'updatedAt' ] },
+          as: 'A',
+          include: {
+            model: ctx.model.Account,
+            attributes: { exclude: [ 'createdAt', 'updatedAt', 'deletedAt' ] },
+            as: 'participateTeam',
+          },
+        },
+        {
+          model: ctx.model.ParticipateRecord,
+          attributes: { exclude: [ 'createdAt', 'updatedAt' ] },
+          as: 'B',
+          include: {
+            model: ctx.model.Account,
+            attributes: { exclude: [ 'createdAt', 'updatedAt', 'deletedAt' ] },
+            as: 'participateTeam',
+          },
+        },
+      ],
+    };
+    const data = await ctx.service.volleyballScore.getScheduleDetail(filter);
     this.success(data);
   }
 
@@ -59,6 +109,30 @@ class VolleyballScoreController extends Controller {
     const { id } = ctx.request.body;
     await ctx.service.volleyballScore.delSchedule(id);
     this.success(null, '删除成功');
+  }
+
+  // 获取有赛程的日期列表
+  async getScheduleDateList() {
+    const { ctx } = this;
+    await ctx.validate(rules.dateListRule, ctx.query);
+    const filter = {
+      attributes: [ 'date' ],
+      where: {
+        ...ctx.query,
+      },
+      group: 'date',
+    };
+    const data = await ctx.service.volleyballScore.getScheduleList(filter);
+    this.success(data.map(item => item.date));
+  }
+
+  // 录入成绩
+  async enterScore() {
+    const { ctx } = this;
+    await ctx.validate(rules.enterScoreRule);
+    const { id, results } = ctx.request.body;
+    await ctx.service.volleyballScore.editScheduleById(id, { results });
+    this.success(null, '录入成功');
   }
 }
 

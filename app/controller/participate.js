@@ -45,8 +45,8 @@ class AccountController extends Controller {
   async getTeamParticipantList() {
     const { ctx } = this;
     ctx.validate(rules.getTeamParticipantListRule, ctx.request.query);
-    const { raceId, teamId: accountId } = ctx.request.query;
-    const list = await ctx.service.participateRecord.getTeamParticipantList({ raceId, accountId });
+    const { participateId } = ctx.request.query;
+    const list = await ctx.service.participant.getTeamParticipantList({ participateId });
     this.success(list);
   }
 

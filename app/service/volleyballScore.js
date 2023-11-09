@@ -11,46 +11,20 @@ class VolleyballScoreService extends Service {
    */
   async getScheduleList(filter) {
     const { ctx } = this;
-    const param = {
-      attributes: { exclude: [ 'createdAt', 'updatedAt' ] },
-      where: filter,
-      include: [
-        {
-          model: ctx.model.ParticipateRecord,
-          attributes: { exclude: [ 'createdAt', 'updatedAt' ] },
-          as: 'A',
-          include: {
-            model: ctx.model.Account,
-            attributes: { exclude: [ 'createdAt', 'updatedAt', 'deletedAt' ] },
-            as: 'participateTeam',
-          },
-        },
-        {
-          model: ctx.model.ParticipateRecord,
-          attributes: { exclude: [ 'createdAt', 'updatedAt' ] },
-          as: 'B',
-          include: {
-            model: ctx.model.Account,
-            attributes: { exclude: [ 'createdAt', 'updatedAt', 'deletedAt' ] },
-            as: 'participateTeam',
-          },
-        },
-      ],
-    };
-    const list = await ctx.model.VolleyballScore.list(param);
+    const list = await ctx.model.VolleyballScore.list(filter);
     return list;
   }
 
   /**
    * 根据ID获取赛程详情
    *
-   * @param {*} id 赛程ID
+   * @param {object} filter 搜索筛选项
    * @return {*} 赛程信息
    * @memberof VolleyballScoreService
    */
-  async getScheduleDetail(id) {
+  async getScheduleDetail(filter) {
     const { ctx } = this;
-    return await ctx.model.VolleyballScore.detail({ where: { id } });
+    return await ctx.model.VolleyballScore.detail(filter);
   }
 
   /**

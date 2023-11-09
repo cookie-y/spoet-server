@@ -22,5 +22,9 @@ module.exports = app => {
     group: {
       type: STRING(10),
     },
+    // 积分
+    integral: {
+      type: STRING(255),
+    },
   };
 };

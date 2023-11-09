@@ -22,33 +22,7 @@ class ParticipateService extends Service {
           as: 'participateTeam',
         },
       ],
-      order: [[ 'group' ]],
-    };
-    const list = await ctx.model.ParticipateRecord.list(filter);
-    return list;
-  }
-
-  /**
-   * 获取某个比赛某个队伍的参赛队员
-   *
-   * @param {*} where 筛选条件
-   * @return {*} 参赛队员列表
-   * @memberof ParticipateService
-   */
-  async getTeamParticipantList(where) {
-    const { ctx } = this;
-    const filter = {
-      attributes: { exclude: [ 'createdAt', 'updatedAt', 'deletedAt' ] },
-      where,
-      include: [
-        {
-          model: ctx.model.Member,
-          attributes: { exclude: [ 'createdAt', 'updatedAt', 'deletedAt' ] },
-          through: {
-            attributes: [],
-          },
-        },
-      ],
+      order: [[ 'integral', 'DESC' ]],
     };
     const list = await ctx.model.ParticipateRecord.list(filter);
     return list;

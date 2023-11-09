@@ -36,11 +36,7 @@ module.exports = app => {
       type: STRING(255),
     },
     // 比赛成绩
-    result: {
-      type: STRING(255),
-    },
-    // 积分
-    integral: {
+    results: {
       type: STRING(255),
     },
   };
