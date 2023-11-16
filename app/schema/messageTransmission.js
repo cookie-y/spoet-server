@@ -10,7 +10,12 @@ module.exports = app => {
       autoIncrement: true,
     },
     // 接收者id
-    receverId: {
+    receiverId: {
+      type: INTEGER,
+      allowNull: false,
+    },
+    // 发送方Id
+    senderId: {
       type: INTEGER,
       allowNull: false,
     },

@@ -11,18 +11,25 @@ module.exports = app => {
   const School = app.model.define('school', require('../schema/school')(app));
   const SearchRecord = app.model.define('searchRecord', require('../schema/searchRecord')(app));
   const Message = app.model.define('message', require('../schema/message')(app));
-  const MessageReceiver = app.model.define('messageReceiver', require('../schema/messageTransmission')(app));
+  const MessageTransmission = app.model.define('messageTransmission', require('../schema/messageTransmission')(app));
 
-  // 关系
+  // #region 关系
   Account.belongsTo(School, { foreignKey: 'schoolId' }); // 一个账号属于一个学校
-  Account.hasMany(Race, { foreignKey: 'organizer', targetKey: 'accountId' }); // 一个账号可举办多场比赛
-  Account.belongsToMany(Race, { through: ParticipateRecord, foreignKey: 'accountId', otherKey: 'raceId' }); // 一个账号可参加多个比赛
-  Account.hasMany(Member, { foreignKey: 'facultyId', targetKey: 'accountId' }); // 一个账号有多个队员
-  Account.hasMany(ParticipateRecord, { foreignKey: 'accountId', targetKey: 'accountId' }); // 一个账号可有多个队员参赛
-  Account.hasMany(SearchRecord, { foreignKey: 'accountId', targetKey: 'accountId' }); // 一个账号可有多个搜索记录
-  Account.hasMany(Message, { foreignKey: 'sender', targetKey: 'accountId' }); // 一个账号可发送多条信息
-  Account.hasMany(MessageReceiver, { foreignKey: 'receverId', targetKey: 'accountId' }); // 一个账号可接收多条信息
-
+  // 一个账号可举办多场比赛
+  Account.hasMany(Race, { foreignKey: 'organizer', targetKey: 'accountId' });
+  // 一个账号可参加多个比赛 一个比赛可以有多个参赛方
+  Account.belongsToMany(Race, { through: ParticipateRecord, foreignKey: 'accountId', otherKey: 'raceId' });
+  Account.hasMany(ParticipateRecord, { foreignKey: 'accountId', targetKey: 'accountId' });
+  // 一个账号有多个队员
+  Account.hasMany(Member, { foreignKey: 'facultyId', targetKey: 'accountId' });
+  // 一个账号可发送多条信息
+  Account.hasMany(MessageTransmission, { as: 'sended', foreignKey: 'senderId', targetKey: 'accountId' });
+  // 一个接收方可以接收多条信息 一条消息可以有多个接收方
+  Account.belongsToMany(Message, { through: MessageTransmission, foreignKey: 'receiverId', otherKey: 'messageId' });
+  Account.hasMany(MessageTransmission, { as: 'received', foreignKey: 'receiverId', targetKey: 'accountId' });
+  // 一个账号可有多个搜索记录
+  Account.hasMany(SearchRecord, { foreignKey: 'accountId', targetKey: 'accountId' });
+  // #endregion
 
   Account.beforeSave(async account => {
     if (!account.changed('password')) {
@@ -69,6 +76,12 @@ module.exports = app => {
     return await Account.destroy({
       where: { accountId },
     });
+  };
+
+  // 查询列表
+  Account.list = async filter => {
+    const { rows, count } = await Account.findAndCountAll(filter);
+    return { list: rows, total: count };
   };
 
   return Account;

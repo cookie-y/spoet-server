@@ -4,10 +4,15 @@ module.exports = app => {
   const { INTEGER, STRING } = app.Sequelize;
   return {
     // 消息id
-    messageId: {
+    id: {
       type: INTEGER,
       primaryKey: true,
       autoIncrement: true,
+    },
+    // 消息标题
+    title: {
+      type: STRING(255),
+      allowNull: false,
     },
     // 消息内容
     content: {
@@ -18,11 +23,6 @@ module.exports = app => {
     raceId: {
       type: INTEGER,
       allowNull: true,
-    },
-    // 发送方Id
-    senderId: {
-      type: INTEGER,
-      allowNull: false,
     },
   };
 };
