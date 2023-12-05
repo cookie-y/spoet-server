@@ -6,7 +6,7 @@ class MessageService extends Service {
   // 获取消息列表
   async getMsgList(accountId, page, pageSize) {
     const { app } = this;
-    const SQL = `SELECT t2.message_id, t2.sender_id, m.content, a.account_name
+    const SQL = `SELECT t2.message_id as messageId, t2.sender_id as senderId, m.content, a.account_name as senderName, t1.time as lastOneTime, a.logo
                 FROM (SELECT t.sender_id, MAX(t.created_at) as time
                   FROM message_transmissions t
                   WHERE t.receiver_id = ${accountId}
@@ -20,8 +20,8 @@ class MessageService extends Service {
                 on t2.sender_id = a.account_id
                 LIMIT ${pageSize}
                 OFFSET ${(page - 1) * pageSize}`;
-    const [ result ] = await app.model.query(SQL);
-    return { result, page, pageSize };
+    const [ list ] = await app.model.query(SQL);
+    return { list, page, pageSize };
   }
 
   // 获取某人发送的消息列表

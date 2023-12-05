@@ -18,7 +18,7 @@ class ParticipateService extends Service {
       include: [
         {
           model: ctx.model.Account,
-          attributes: { exclude: [ 'createdAt', 'updatedAt', 'deletedAt' ] },
+          attributes: [ 'accountId', 'accountName', 'logo' ],
           as: 'participateTeam',
         },
       ],

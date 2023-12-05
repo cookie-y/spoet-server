@@ -2,6 +2,7 @@
 const Controller = require('../core/base_controller');
 const rules = require('../rules/race');
 const { Op } = require('sequelize');
+const { camelCase } = require('lodash');
 
 /**
  * * 安全
@@ -9,7 +10,7 @@ const { Op } = require('sequelize');
 class RaceController extends Controller {
   // 获取比赛列表
   async getRaceList() {
-    const { ctx } = this;
+    const { ctx, app } = this;
     await ctx.validate(rules.raceListRule, ctx.query);
     const { page = 1, pageSize = 10, type, keyword, ...query } = ctx.request.query;
     let filter = {
@@ -26,11 +27,27 @@ class RaceController extends Controller {
       };
       list = await ctx.service.race.getMyHostRaceList(filter);
     } else if (type === 'attend') {
+      const attribues = [ 'race_start', 'type', 'race_name', 'race_poster', 'state', 'organizer' ];
       // 我参加的
       filter = {
         ...filter,
-        include: 'race',
-        attributes: [ 'raceId' ],
+        include: [
+          {
+            model: ctx.model.Race,
+            attributes: [],
+            include: [{
+              model: ctx.model.Account,
+              as: 'organize',
+              attributes: [],
+            }],
+          },
+        ],
+        raw: true,
+        attributes: [
+          'raceId',
+          ...attribues.map(item => [ app.Sequelize.col(`race.${item}`), camelCase(item) ]),
+          [ app.Sequelize.col('race.organize.account_name'), 'organizerName' ],
+        ],
         order: [[ 'race', 'applyStart', 'DESC' ]],
         where: { accountId: ctx.user.accountId },
       };

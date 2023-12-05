@@ -25,8 +25,11 @@ module.exports = app => {
       include: [{
         model: Account,
         as: 'organize',
-        attributes: [ 'accountName' ],
+        attributes: [],
       }],
+      attributes: {
+        include: [[ app.Sequelize.col('organize.account_name'), 'organizerName' ]],
+      },
     };
     const filter = assignFilter(origin, common);
     const { rows, count } = await Race.findAndCountAll(filter);

@@ -2,20 +2,15 @@
 
 // 修改账号基础资料接口参数校验
 const editAccountInfoRule = {
-  // 学校ID
-  schoolId: {
-    type: 'number',
-    required: true,
-  },
   // 用户名
   accountName: {
     type: 'string',
-    required: true,
+    required: false,
   },
   // 账号Logo
   logo: {
     type: 'string',
-    required: true,
+    required: false,
   },
 };
 
@@ -46,7 +41,7 @@ const editPasswordRule = {
 const validateEmailRule = {
   // 密码
   email: {
-    type: 'string',
+    type: 'email',
     required: true,
   },
 };

@@ -14,16 +14,18 @@ module.exports = app => {
       type: STRING(255),
       allowNull: false,
     },
-    // 比赛状态 0 编辑中，1 筹办中，2 报名中，3 已截止，4 进行中，5 已结束
+    // 比赛状态
     state: {
       type: INTEGER,
       defaultValue: 0,
       allowNull: false,
+      comment: '0:编辑中,1:审核中,2:筹办中,3:报名中,4:已截止,5:进行中,6:已结束',
     },
     // 比赛类型 0 排球
     type: {
       type: INTEGER,
       defaultValue: 0,
+      comment: '0:排球',
     },
     // 比赛海报
     racePoster: {

@@ -27,7 +27,7 @@ class AccountController extends Controller {
       ctx.validate(rules.groupRule);
       const { raceId, list } = ctx.request.body;
       await ctx.service.participateRecord.editGroupInf(raceId, list);
-      this.success();
+      this.success(null, '分组成功');
     } catch (error) {
       console.log(error);
     }

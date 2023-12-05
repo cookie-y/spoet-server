@@ -30,10 +30,17 @@ class RaceService extends Service {
 
   // 获取比赛详情
   async getDetail(raceId) {
-    const { ctx } = this;
+    const { ctx, app } = this;
     const filter = {
+      attributes: {
+        include: [[ app.Sequelize.col('organize.account_name'), 'organizerName' ]],
+      },
       where: { raceId },
-      include: 'organize',
+      include: [{
+        model: ctx.model.Account,
+        as: 'organize',
+        attributes: [],
+      }],
     };
     const result = await ctx.model.Race.detail(filter);
     return result;
@@ -43,13 +50,6 @@ class RaceService extends Service {
   async getRecommendRace() {
     const { ctx } = this;
     const filter = {
-      include: [{
-        model: ctx.model.Account,
-        as: 'participants',
-        through: {
-          attributes: [],
-        },
-      }],
       where: {
         state: {
           [Op.ne]: 0,

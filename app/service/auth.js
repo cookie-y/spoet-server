@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 class AuthService extends Service {
   async signUp(message) {
     const res = await this.ctx.model.Message.add(message);
-    console.log(res);
+    return res;
   }
   /**
    * 校验密码

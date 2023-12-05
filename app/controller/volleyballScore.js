@@ -23,7 +23,7 @@ class VolleyballScoreController extends Controller {
           as: 'A',
           include: {
             model: ctx.model.Account,
-            attributes: { exclude: [ 'createdAt', 'updatedAt', 'deletedAt' ] },
+            attributes: [ 'accountId', 'accountName', 'logo' ],
             as: 'participateTeam',
           },
         },
@@ -33,7 +33,7 @@ class VolleyballScoreController extends Controller {
           as: 'B',
           include: {
             model: ctx.model.Account,
-            attributes: { exclude: [ 'createdAt', 'updatedAt', 'deletedAt' ] },
+            attributes: [ 'accountId', 'accountName', 'logo' ],
             as: 'participateTeam',
           },
         },

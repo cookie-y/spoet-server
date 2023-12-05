@@ -36,8 +36,18 @@ const signInRule = {
   },
 };
 
+// 获取验证码接口参数校验
+const getCodeRule = {
+  // 邮箱
+  email: {
+    type: 'email',
+    required: true,
+  },
+};
+
 
 module.exports = {
   signUpRule,
   signInRule,
+  getCodeRule,
 };
