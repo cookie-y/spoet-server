@@ -6,6 +6,8 @@ module.exports = ctl => ({
     '/addRace': ctl.race.addRace,
     // 编辑比赛基本信息
     '/editRace': ctl.race.editRace,
+    // 删除比赛
+    '/delRace': ctl.race.delRace,
   },
   get: {
     // 获取比赛列表

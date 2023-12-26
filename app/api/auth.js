@@ -9,6 +9,8 @@ module.exports = ctl => ({
     '/auth/signUp': ctl.auth.signUp,
     // 找回密码
     '/auth/resetPassword': ctl.auth.resetPassword,
+    // 校验验证码
+    '/auth/authCode': ctl.auth.authCode,
   },
   get: {
     // 获取注册验证码

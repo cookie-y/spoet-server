@@ -56,21 +56,21 @@ class VolleyballScoreController extends Controller {
       include: [
         {
           model: ctx.model.ParticipateRecord,
-          attributes: { exclude: [ 'createdAt', 'updatedAt' ] },
+          attributes: [ 'accountId', 'id' ],
           as: 'A',
           include: {
             model: ctx.model.Account,
-            attributes: { exclude: [ 'createdAt', 'updatedAt', 'deletedAt' ] },
+            attributes: [ 'accountId', 'accountName', 'logo' ],
             as: 'participateTeam',
           },
         },
         {
           model: ctx.model.ParticipateRecord,
-          attributes: { exclude: [ 'createdAt', 'updatedAt' ] },
+          attributes: [ 'accountId', 'id' ],
           as: 'B',
           include: {
             model: ctx.model.Account,
-            attributes: { exclude: [ 'createdAt', 'updatedAt', 'deletedAt' ] },
+            attributes: [ 'accountId', 'accountName', 'logo' ],
             as: 'participateTeam',
           },
         },

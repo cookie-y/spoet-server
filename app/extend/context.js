@@ -2,7 +2,7 @@
 
 module.exports = {
   SUCCESS_CODE: 200, // 成功
-  SUCCESS_MSG: 'OK', // 成功消息
+  SUCCESS_MSG: '成功', // 成功消息
 
   async signToken(account, rememberMe) {
     return new Promise((resolve, reject) => {

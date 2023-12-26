@@ -57,12 +57,14 @@ module.exports = app => {
 
   /**
    * * 更新用户信息
-   * @param {number} accountId 账号Id
+   * @param {number} param 需更新的数据
+   * @param {number} where 校验条件
    */
-  Account.edit = async ({ accountId, ...others }) => {
+  Account.edit = async (param, where) => {
+    console.log('fheuo', param, where);
     await Account.update(
-      { ...others },
-      { where: { accountId },
+      param,
+      { where,
         individualHooks: true,
       });
 

@@ -29,12 +29,13 @@ class AccountService extends Service {
    * 修改账号基本信息
    *
    * @param {*} account 待修改的账号数据
+   * @param {*} where 判断依据
    * @return {*} 修改结果
    * @memberof AccountService
    */
-  async editInfo(account) {
+  async editInfo(account, where) {
     const { ctx } = this;
-    const result = await ctx.model.Account.edit(account);
+    const result = await ctx.model.Account.edit(account, where);
     return result;
   }
 
@@ -42,13 +43,13 @@ class AccountService extends Service {
    * 更新密码
    *
    * @param {*} params 新旧密码数据
+   * @param {*} where 判断依据
    * @return {*} 更新结果
    * @memberof AccountService
    */
-  async editPassword(params) {
+  async editPassword(params, where) {
     const { ctx } = this;
-    params.password = params.newPassword;
-    const result = await ctx.model.Account.edit(params);
+    const result = await ctx.model.Account.edit(params, where);
     return result;
   }
 
@@ -56,13 +57,14 @@ class AccountService extends Service {
    * 更新邮箱
    *
    * @param {*} params 新旧邮箱数据
+   * @param {*} where 判断依据
    * @return {*} 更新结果
    * @memberof AccountService
    */
-  async editEmail(params) {
+  async editEmail(params, where) {
     const { ctx } = this;
     params.email = params.newEmail;
-    const result = await ctx.model.Account.edit(params);
+    const result = await ctx.model.Account.edit(params, where);
     return result;
   }
 }

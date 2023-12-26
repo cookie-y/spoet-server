@@ -93,7 +93,7 @@ class RaceController extends Controller {
 
     await ctx.service.race.addRace(race);
 
-    this.success();
+    this.success(null, '新增成功');
 
   }
 
@@ -103,25 +103,18 @@ class RaceController extends Controller {
 
     await ctx.service.race.editRace(ctx.request.body);
 
-    this.success();
+    this.success(null, '编辑成功');
   }
 
   // 删除比赛
-  async delete() {
+  async delRace() {
     const { ctx } = this;
-    const { raceId } = ctx.request.query;
+    const { raceId } = ctx.request.body;
 
     await ctx.service.race.delRace(raceId);
 
-    this.success();
+    this.success(null, '删除成功');
 
-  }
-
-  async automaticGrouping() {
-    const { ctx } = this;
-    const { raceId, groupNum, special } = ctx.request.body;
-    await ctx.service.ParticipateRecord.automaticGrouping(+raceId, +groupNum, special.split(','));
-    this.success();
   }
 }
 

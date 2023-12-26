@@ -1,6 +1,5 @@
 'use strict';
 
-
 module.exports = ctl => ({
   post: {
     // 新增账户

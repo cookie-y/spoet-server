@@ -3,7 +3,7 @@ const Controller = require('../core/base_controller');
 const rules = require('../rules/participate');
 
 
-class AccountController extends Controller {
+class ParticipateController extends Controller {
   // 新增参赛队员
   async addParticipants() {
     const { ctx } = this;
@@ -17,7 +17,7 @@ class AccountController extends Controller {
       return;
     }
     await ctx.service.participant.addParticipants(participantId, participants);
-    this.success();
+    this.success(null, '参赛成功');
   }
 
   // 分组
@@ -52,4 +52,4 @@ class AccountController extends Controller {
 
 }
 
-module.exports = AccountController;
+module.exports = ParticipateController;

@@ -30,7 +30,7 @@ class AccountController extends Controller {
     if (ctx.isAuthenticated()) {
       ctx.validate(rules.editAccountInfoRule);
 
-      await ctx.service.account.editInfo({ accountId: ctx.user.accountId, ...ctx.request.body });
+      await ctx.service.account.editInfo({ ...ctx.request.body }, { accountId: ctx.user.accountId });
 
       this.success(null, '修改成功');
     }
@@ -54,7 +54,8 @@ class AccountController extends Controller {
   async editPassword() {
     const { ctx } = this;
     ctx.validate(rules.editPasswordRule);
-    await ctx.service.account.editPassword({ ...ctx.request.body, accountId: ctx.user.accountId });
+    const { newPassword } = ctx.request.body;
+    await ctx.service.account.editPassword({ password: newPassword }, { accountId: ctx.user.accountId });
     this.success(null, '修改成功');
   }
 
@@ -75,7 +76,7 @@ class AccountController extends Controller {
   async editEmail() {
     const { ctx } = this;
     ctx.validate(rules.editEmailRule);
-    await ctx.service.account.editEmail({ ...ctx.request.body, accountId: ctx.user.accountId });
+    await ctx.service.account.editEmail({ ...ctx.request.body }, { accountId: ctx.user.accountId });
     this.success(null, '修改成功');
   }
 

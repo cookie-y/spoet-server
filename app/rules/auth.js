@@ -30,6 +30,7 @@ const signInRule = {
     type: 'int',
     required: true,
   },
+  // 密码
   password: {
     type: 'string',
     required: true,
@@ -45,9 +46,37 @@ const getCodeRule = {
   },
 };
 
+// 校验验证码接口参数校验
+const authCodeRule = {
+  // 邮箱
+  email: {
+    type: 'email',
+  },
+  // 验证码
+  code: {
+    type: 'string',
+  },
+};
+
+// 重置密码接口参数校验
+const resetPasswordRule = {
+  // 邮箱
+  email: {
+    type: 'email',
+    required: true,
+  },
+  // 密码
+  password: {
+    type: 'string',
+    required: true,
+  },
+};
+
 
 module.exports = {
   signUpRule,
   signInRule,
   getCodeRule,
+  authCodeRule,
+  resetPasswordRule,
 };
