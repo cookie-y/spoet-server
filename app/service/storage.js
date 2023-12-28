@@ -30,7 +30,7 @@ class StorageService extends Service {
       } finally {
         await fs.unlink(file.filepath, () => {});
       }
-      const url = `http://127.0.0.1:7001/public/${content}/${id}.${suffix}`;
+      const url = `http://192.168.0.192:7001/public/${content}/${id}.${suffix}`;
       result.push(url);
     }
     return result.join(',');

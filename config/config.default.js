@@ -46,7 +46,7 @@ module.exports = appInfo => {
     secret: '123456',
     enable: true,
     ignore(ctx) {
-      return ctx.path.includes('/auth/');
+      return /\/auth(UN)?\//.test(ctx.path);
     },
   };
 
@@ -65,7 +65,7 @@ module.exports = appInfo => {
 
   const userConfig = {
     // myAppName: 'egg',
-    prefix: '/api',
+    prefix: '/eggapi',
   };
 
 

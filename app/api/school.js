@@ -3,6 +3,6 @@
 module.exports = ctl => ({
   get: {
     // 获取学校列表
-    '/getSchoolList': ctl.school.getSchoolList,
+    '/authUN/getSchoolList': ctl.school.getSchoolList,
   },
 });
